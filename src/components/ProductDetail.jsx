@@ -9,6 +9,7 @@ import { ErrorBoundary } from "react-error-boundary";
 export default function ProductDetail() {
   const [id] = useState(useParams().id);
   const [product, setProductDetail] = useState([]);
+  const [qty, setQty] = useState('');
 
   useEffect(() => {
     fetchProductDetail();
@@ -53,15 +54,15 @@ export default function ProductDetail() {
                             {detail.image.map((data) => {
                               return (
                                 <div
-                                  className="thumbnail-item active"
+                                  className="thumbnail-item"
                                   data-image={
-                                      "http://192.168.0.100:8000/images/" +
+                                      "http://192.168.110.24:8000/images/" +
                                       data.image
                                     }
                                 >
                                   <img
                                     src={
-                                      "http://192.168.0.100:8000/images/" +
+                                      "http://192.168.110.24:8000/images/" +
                                       data.image
                                     }
                                     alt="Product Thumbnail"
@@ -77,19 +78,25 @@ export default function ProductDetail() {
                         <div className="main-image-wrapper">
                           <div className="image-zoom-container">
                             <a
-                              href="assets/img/product/product-details-1.webp"
+                              href={
+                                  "http://192.168.110.24:8000/images/" +
+                                  detail.image[0].image
+                                }
                               className="glightbox"
                               data-gallery="product-gallery"
                             >
                               <img
                                 src={
-                                  "http://192.168.0.100:8000/images/" +
+                                  "http://192.168.110.24:8000/images/" +
                                   detail.image[0].image
                                 }
                                 alt="Product Image"
                                 className="img-fluid main-image drift-zoom"
                                 id="main-product-image"
-                                data-zoom="assets/img/product/product-details-1.webp"
+                                data-zoom={
+                                  "http://192.168.110.24:8000/images/" +
+                                  detail.image[0].image
+                                }
                               />
                               <div className="zoom-overlay">
                                 <i className="bi bi-zoom-in"></i>
