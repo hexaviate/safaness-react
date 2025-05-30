@@ -27,6 +27,10 @@ export default function ProductDetail() {
       });
   };
 
+  const handleSave = () => {
+    axios.post()
+  }
+
   return (
     <>
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
