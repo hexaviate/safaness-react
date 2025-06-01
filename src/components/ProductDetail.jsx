@@ -5,11 +5,14 @@ import Navigation from "../layout/Navigation";
 import Footer from "../layout/Footer";
 import { useParams } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
+import { useNavigate } from "react-router-dom";
+
 
 export default function ProductDetail() {
   const [id] = useState(useParams().id);
   const [product, setProductDetail] = useState([]);
-  const [qty, setQty] = useState('');
+  const [qty, setQty] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProductDetail();
@@ -25,11 +28,24 @@ export default function ProductDetail() {
       .catch(function (error) {
         console.error(error);
       });
-  };
+    };
+    
+    const handleSave = () => {
+      axios.post('/admin/cart', {
+        product_id: id,
+        qty: qty
+      })
+      .then(()=>{
 
-  const handleSave = () => {
-    axios.post()
-  }
+        setQty('');
+        navigate('/cart');
+        
+      }
+    )
+
+
+
+  };
 
   return (
     <>
@@ -60,13 +76,13 @@ export default function ProductDetail() {
                                 <div
                                   className="thumbnail-item"
                                   data-image={
-                                      "http://192.168.110.24:8000/images/" +
-                                      data.image
-                                    }
+                                  "http://192.168.0.100:8000/images/" +
+                                    data.image
+                                  }
                                 >
                                   <img
                                     src={
-                                      "http://192.168.110.24:8000/images/" +
+                                  "http://192.168.0.100:8000/images/" +
                                       data.image
                                     }
                                     alt="Product Thumbnail"
@@ -83,22 +99,22 @@ export default function ProductDetail() {
                           <div className="image-zoom-container">
                             <a
                               href={
-                                  "http://192.168.110.24:8000/images/" +
-                                  detail.image[0].image
-                                }
+                                  "http://192.168.0.100:8000/images/" +
+                                detail.image[0].image
+                              }
                               className="glightbox"
                               data-gallery="product-gallery"
                             >
                               <img
                                 src={
-                                  "http://192.168.110.24:8000/images/" +
+                                  "http://192.168.0.100:8000/images/" +
                                   detail.image[0].image
                                 }
                                 alt="Product Image"
                                 className="img-fluid main-image drift-zoom"
                                 id="main-product-image"
                                 data-zoom={
-                                  "http://192.168.110.24:8000/images/" +
+                                  "http://192.168.0.100:8000/images/" +
                                   detail.image[0].image
                                 }
                               />
@@ -155,7 +171,7 @@ export default function ProductDetail() {
                             </div>
                           </div>
 
-                          <h1 class="product-title">{detail.name}</h1>
+                          <h1 className="product-title">{detail.name}</h1>
                         </div>
 
                         {/* <!-- Product Price --> */}
@@ -182,7 +198,13 @@ export default function ProductDetail() {
                         {/* <!-- Product Options --> */}
                         <div className="product-options">
                           {/* <!-- Color Options --> */}
-
+                          <div className="option-group">
+                            <div className="option-header">
+                              <h6 className="option-title">Weight</h6>
+                              <span className="selected-option">{detail.weight}gr</span>
+                            </div>
+                            
+                          </div>
                           {/* <!-- Quantity Selector --> */}
                           <div className="option-group">
                             <h6 className="option-title">Quantity</h6>
@@ -190,7 +212,7 @@ export default function ProductDetail() {
                               <button className="quantity-btn decrease">
                                 <i className="bi bi-dash"></i>
                               </button>
-                              <input type="number" className="quantity-input" />
+                              <input type="number" className="quantity-input" onChange={(e) => setQty(e.target.value)} value={qty}/>
                               <button className="quantity-btn increase">
                                 <i className="bi bi-plus"></i>
                               </button>
@@ -200,7 +222,7 @@ export default function ProductDetail() {
 
                         {/* <!-- Action Buttons --> */}
                         <div className="product-actions">
-                          <button className="btn btn-primary add-to-cart-btn">
+                          <button className="btn btn-primary add-to-cart-btn" onClick={handleSave}>
                             <i className="bi bi-cart-plus"></i> Add to Cart
                           </button>
                           <button className="btn btn-outline-primary buy-now-btn">
