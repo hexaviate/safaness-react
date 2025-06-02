@@ -26,9 +26,17 @@ export default function Cart() {
     });
   };
 
-  const handleUpdate = () => [
-    axios.put("/admin/cart")
+  const handleUpdate = (id, newQty) => [
+    axios.put(`/admin/cart/${id}`, { qty: newQty})
+    .then(()=> fetchCartList())
+    .catch((err) => console.error("update Failed:", err))
   ]
+
+  const handleDelete = (id) => {
+    axios.delete(`/admin/cart/${id}`)
+    .then(() => fetchCartList())
+    .catch((err) => console.error("deleted faielde", err));
+  }
 
   return (
     <>
@@ -97,7 +105,9 @@ export default function Cart() {
                               </div>
                               <div class="product-details">
                                 <h6 class="product-title">{cart.product}</h6>
-                                <button class="remove-item" type="button">
+                                <button class="remove-item" type="button"
+                                  onClick={() => handleDelete(cart.id)}
+                                >
                                   <i class="bi bi-trash"></i> Remove
                                 </button>
                               </div>
@@ -110,7 +120,12 @@ export default function Cart() {
                           </div>
                           <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                             <div class="quantity-selector">
-                              <button class="quantity-btn decrease">
+                              <button class="quantity-btn decrease"
+                                onClick={() => {
+                                  const newQty = Math.max(1, parseInt(cart.qty)- 1);
+                                  handleUpdate(cart.id, newQty);
+                                }}
+                              >
                                 <i class="bi bi-dash"></i>
                               </button>
                               <input
@@ -119,8 +134,18 @@ export default function Cart() {
                                 value={cart.qty}
                                 min="1"
                                 max="10"
+                                onChange={(e) => {
+                                  const updatedCart = [cartList];
+                                  updatedCart[key].qty = e.target.value;
+                                  setCartList(updatedCart);
+                                }}
                               />
-                              <button class="quantity-btn increase">
+                              <button class="quantity-btn increase"
+                                onClick={()=>{
+                                  const newQty = parseInt(cart.qty) + 1;
+                                  handleUpdate(cart.id, newQty);
+                                }}
+                              >
                                 <i class="bi bi-plus"></i>
                               </button>
                             </div>
