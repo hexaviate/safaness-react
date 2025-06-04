@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 
 const Navbar = () => {
   return (
@@ -12,7 +14,7 @@ const Navbar = () => {
               {/* <!-- Uncomment the line below if you also wish to use an image logo --> */}
               <img src="assets/img/logo.webp" alt="" />
               <h1 className="sitename">
-                Fashion<span>Store</span>
+                Safa<span>Ness</span>
               </h1>
             </a>
 
@@ -55,7 +57,7 @@ const Navbar = () => {
                 <div className="dropdown-menu">
                   <div className="dropdown-header">
                     <h6>
-                      Welcome to <span className="sitename">FashionStore</span>
+                      Welcome to <span className="sitename">Safaness</span>
                     </h6>
                     <p className="mb-0">Access account &amp; manage orders</p>
                   </div>
@@ -97,9 +99,9 @@ const Navbar = () => {
                     </a>
                   </div>
                   <div className="dropdown-footer">
-                    <a href="login.html" className="btn btn-primary w-100 mb-2">
+                    <Link to={"/login"} className="btn btn-primary w-100 mb-2">
                       Sign In
-                    </a>
+                    </Link>
                     <a
                       href="register.html"
                       className="btn btn-outline-primary w-100"
@@ -111,16 +113,6 @@ const Navbar = () => {
               </div>
 
               {/* <!-- Wishlist --> */}
-              <a
-                href="wishlist.html"
-                className="header-action-btn d-none d-md-flex"
-              >
-                <i className="bi bi-heart"></i>
-                <span className="action-text d-none d-md-inline-block">
-                  Wishlist
-                </span>
-                <span className="badge">0</span>
-              </a>
 
               {/* <!-- Cart --> */}
               <div className="dropdown cart-dropdown">
