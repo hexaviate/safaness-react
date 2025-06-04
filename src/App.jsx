@@ -9,6 +9,7 @@ import AuthUser from './components/AuthUser'
 import Cart from './components/Cart'
 import Login from './components/auth/Login'
 import CheckoutConfirmation from './components/CheckoutConfirmation'
+import Profile from './components/Profile'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/detail/:id" element={<ProductDetail/>}></Route>
         <Route path="/cart" element={<Cart/>}></Route>
         <Route path="/checkout" element={<CheckoutConfirmation/>}></Route>
+        <Route path="/profile" element={<Profile/>}></Route>
       </Routes>
     </Router>
   )
