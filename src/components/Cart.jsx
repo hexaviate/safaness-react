@@ -116,7 +116,7 @@ export default function Cart() {
                           </div>
                           <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                             <div className="price-tag">
-                              <span className="current-price">Rp.{cart.price}</span>
+                              <span className="current-price">Rp.{Number(cart.price).toLocaleString()}</span>
                             </div>
                           </div>
                           <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
@@ -158,7 +158,7 @@ export default function Cart() {
                           </div>
                           <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                             <div className="item-total">
-                              <span>Rp.{cart.price_total}</span>
+                              <span>Rp.{Number(cart.price_total).toLocaleString()}</span>
                             </div>
                           </div>
                         </div>
@@ -195,16 +195,16 @@ export default function Cart() {
 
                       <div className="summary-item">
                         <span className="summary-label">Subtotal</span>
-                        <span className="summary-value">Rp.{info.subtotal}</span>
+                        <span className="summary-value">Rp.{Number(info.subtotal).toLocaleString()}</span>
                       </div>
                       <div className="summary-item">
                         <span className="summary-label">Ongkir</span>
-                        <span className="summary-value">Rp.{info.ongkir}</span>
+                        <span className="summary-value">Rp.{Number(info.ongkir).toLocaleString()}</span>
                       </div>
 
                       <div className="summary-total">
                         <span className="summary-label">Total</span>
-                        <span className="summary-value">Rp.{info.total}</span>
+                        <span className="summary-value">Rp.{Number(info.total).toLocaleString()}</span>
                       </div>
 
                       <div className="checkout-button">

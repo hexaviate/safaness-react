@@ -1,18 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-
 const Navbar = () => {
   return (
     <>
-    {/* Main Header */}
+      {/* Main Header */}
       <div className="main-header">
         <div className="container-fluid container-xl">
           <div className="d-flex py-3 align-items-center justify-content-between">
             {/* <!-- Logo --> */}
             <a href="index.html" className="logo d-flex align-items-center">
               {/* <!-- Uncomment the line below if you also wish to use an image logo --> */}
-              <img src="assets/img/logo.webp" alt="" />
+              <img src={"http://192.168.1.32:8000/images/logoSmk.png"} alt="" />
               <h1 className="sitename">
                 Safa<span>Ness</span>
               </h1>
@@ -62,41 +61,20 @@ const Navbar = () => {
                     <p className="mb-0">Access account &amp; manage orders</p>
                   </div>
                   <div className="dropdown-body">
-                    <a
+                    <Link
+                      to={"/profile"}
                       className="dropdown-item d-flex align-items-center"
-                      href="account.html"
                     >
                       <i className="bi bi-person-circle me-2"></i>
                       <span>My Profile</span>
-                    </a>
-                    <a
+                    </Link>
+                    <Link
+                      to={"/profile"}
                       className="dropdown-item d-flex align-items-center"
-                      href="orders.html"
                     >
                       <i className="bi bi-bag-check me-2"></i>
                       <span>My Orders</span>
-                    </a>
-                    <a
-                      className="dropdown-item d-flex align-items-center"
-                      href="wishlist.html"
-                    >
-                      <i className="bi bi-heart me-2"></i>
-                      <span>My Wishlist</span>
-                    </a>
-                    <a
-                      className="dropdown-item d-flex align-items-center"
-                      href="returns.html"
-                    >
-                      <i className="bi bi-arrow-return-left me-2"></i>
-                      <span>Returns &amp; Refunds</span>
-                    </a>
-                    <a
-                      className="dropdown-item d-flex align-items-center"
-                      href="settings.html"
-                    >
-                      <i className="bi bi-gear me-2"></i>
-                      <span>Settings</span>
-                    </a>
+                    </Link>
                   </div>
                   <div className="dropdown-footer">
                     <Link to={"/login"} className="btn btn-primary w-100 mb-2">
@@ -118,7 +96,9 @@ const Navbar = () => {
               <div className="dropdown cart-dropdown">
                 <button className="header-action-btn" data-bs-toggle="dropdown">
                   <i className="bi bi-cart3"></i>
-                  <span className="action-text d-none d-md-inline-block">Cart</span>
+                  <span className="action-text d-none d-md-inline-block">
+                    Cart
+                  </span>
                   <span className="badge">3</span>
                 </button>
                 <div className="dropdown-menu cart-dropdown-menu">
@@ -137,7 +117,9 @@ const Navbar = () => {
                           />
                         </div>
                         <div className="cart-item-content">
-                          <h6 className="cart-item-title">Wireless Headphones</h6>
+                          <h6 className="cart-item-title">
+                            Wireless Headphones
+                          </h6>
                           <div className="cart-item-meta">1 × $89.99</div>
                         </div>
                         <button className="cart-item-remove">
@@ -209,4 +191,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar
+export default Navbar;

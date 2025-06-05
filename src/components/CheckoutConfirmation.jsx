@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../layout/Navbar";
 import Navigation from "../layout/Navigation";
 import axios from "axios";
+import dayjs from "dayjs";
 
 export default function CheckoutConfirmation() {
   const [infolist, setInfoList] = useState([]);
@@ -26,6 +27,8 @@ export default function CheckoutConfirmation() {
       console.log("test");
     });
   };
+
+  const date = dayjs(dateString).format("DD MMMM YYYY - HH:mm");
 
   return (
     <>
@@ -178,7 +181,7 @@ export default function CheckoutConfirmation() {
                           <h4>{cart.product}</h4>
                           <div class="order-item-price">
                             <span class="quantity">{cart.qty} ×</span>
-                            <span class="price">Rp. {cart.price}</span>
+                            <span class="price">Rp.{Number(cart.price).toLocaleString()}</span>
                           </div>
                         </div>
                       </div>
@@ -192,15 +195,15 @@ export default function CheckoutConfirmation() {
                       <div class="order-totals" key={key}>
                         <div class="order-subtotal d-flex justify-content-between">
                           <span>Subtotal</span>
-                          <span>Rp.{info.subtotal}</span>
+                          <span>Rp.{Number(info.subtotal).toLocaleString()}</span>
                         </div>
                         <div class="order-shipping d-flex justify-content-between">
                           <span>Ongkir</span>
-                          <span>Rp.{info.ongkir}</span>
+                          <span>Rp.{Number(info.ongkir).toLocaleString()}</span>
                         </div>
                         <div class="order-total d-flex justify-content-between">
                           <span>Total</span>
-                          <span>Rp.{info.total}</span>
+                          <span>Rp.{Number(info.total).toLocaleString()}</span>
                         </div>
                       </div>
                         )

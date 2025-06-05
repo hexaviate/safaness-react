@@ -178,7 +178,7 @@ export default function ProductDetail() {
                         <div className="product-price-container">
                           <div className="price-wrapper">
                             <span className="current-price">
-                              Rp.{detail.price}
+                              Rp.{Number(detail.price).toLocaleString()}
                             </span>
                           </div>
                           <div className="stock-info">

@@ -124,7 +124,7 @@ export default function ProductList() {
                           </Link>
                         </h5>
                         <div className="product-price">
-                          <span className="current-price">Rp.{product.price}</span>
+                          <span className="current-price">Rp.{Number(product.price).toLocaleString()}</span>
                         </div>
                       </div>
                     </div>
