@@ -1,7 +1,144 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const Navbar = () => {
+function Navbar() {
+  const [account, setAccount] = useState([]);
+  const [status, setStatus] = useState([]);
+  const [cartList, setCartList] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const [count, setCount] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchAccountDetail();
+    fetchCartList();
+  }, []);
+
+  const fetchAccountDetail = () => {
+    axios.get("/accountDetail").then(function (response) {
+      setAccount([response.data.data]);
+      setStatus(response.data.status);
+      console.log(response.data);
+    });
+  };
+
+  const fetchCartList = () => {
+    axios.get("/admin/cart").then(function (response) {
+      setCartList(response.data.data);
+      setCount(response.data.count);
+      setTotal(response.data.total);
+      console.log(response.data.data);
+      console.log("test");
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/product?search=${encodeURIComponent(search)}`);
+  };
+
+  const accountInfo = (status) => {
+    switch (status) {
+      case "success":
+        return (
+          <>
+            {account.map((detail, key) => {
+              return (
+                <div className="dropdown account-dropdown" key={key}>
+                  <button
+                    className="header-action-btn"
+                    data-bs-toggle="dropdown"
+                  >
+                    <i className="bi bi-person"></i>
+                    <span className="action-text d-none d-md-inline-block">
+                      {detail.name}
+                    </span>
+                  </button>
+                  <div className="dropdown-menu">
+                    <div className="dropdown-header">
+                      <h6>
+                        Welcome to <span className="sitename">Safaness</span>
+                      </h6>
+                      <p className="mb-0">Access account &amp; manage orders</p>
+                    </div>
+                    <div className="dropdown-body">
+                      <Link
+                        to={"/profile"}
+                        className="dropdown-item d-flex align-items-center"
+                      >
+                        <i className="bi bi-person-circle me-2"></i>
+                        <span>My Profile</span>
+                      </Link>
+                      <Link
+                        to={"/profile"}
+                        className="dropdown-item d-flex align-items-center"
+                      >
+                        <i className="bi bi-bag-check me-2"></i>
+                        <span>My Orders</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </>
+        );
+
+      case "unauthenticated":
+        return (
+          <>
+            <div className="dropdown account-dropdown">
+              <button className="header-action-btn" data-bs-toggle="dropdown">
+                <i className="bi bi-person"></i>
+                <span className="action-text d-none d-md-inline-block">
+                  Account
+                </span>
+              </button>
+              <div className="dropdown-menu">
+                <div className="dropdown-header">
+                  <h6>
+                    Welcome to <span className="sitename">Safaness</span>
+                  </h6>
+                  <p className="mb-0">Access account &amp; manage orders</p>
+                </div>
+                <div className="dropdown-body">
+                  <Link
+                    to={"/profile"}
+                    className="dropdown-item d-flex align-items-center"
+                  >
+                    <i className="bi bi-person-circle me-2"></i>
+                    <span>My Profile</span>
+                  </Link>
+                  <Link
+                    to={"/profile"}
+                    className="dropdown-item d-flex align-items-center"
+                  >
+                    <i className="bi bi-bag-check me-2"></i>
+                    <span>My Orders</span>
+                  </Link>
+                </div>
+                <div className="dropdown-footer">
+                  <Link to={"/login"} className="btn btn-primary w-100 mb-2">
+                    Sign In
+                  </Link>
+                  <a
+                    href="register.html"
+                    className="btn btn-outline-primary w-100"
+                  >
+                    Register
+                  </a>
+                </div>
+              </div>
+            </div>
+          </>
+        );
+    }
+  };
+
   return (
     <>
       {/* Main Header */}
@@ -18,11 +155,13 @@ const Navbar = () => {
             </a>
 
             {/* <!-- Search --> */}
-            <form className="search-form desktop-search-form">
+            <form className="search-form desktop-search-form" onSubmit={handleSubmit}>
               <div className="input-group">
                 <input
                   type="text"
                   className="form-control"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search for products..."
                 />
                 <button className="btn search-btn" type="submit">
@@ -46,49 +185,7 @@ const Navbar = () => {
               </button>
 
               {/* <!-- Account --> */}
-              <div className="dropdown account-dropdown">
-                <button className="header-action-btn" data-bs-toggle="dropdown">
-                  <i className="bi bi-person"></i>
-                  <span className="action-text d-none d-md-inline-block">
-                    Account
-                  </span>
-                </button>
-                <div className="dropdown-menu">
-                  <div className="dropdown-header">
-                    <h6>
-                      Welcome to <span className="sitename">Safaness</span>
-                    </h6>
-                    <p className="mb-0">Access account &amp; manage orders</p>
-                  </div>
-                  <div className="dropdown-body">
-                    <Link
-                      to={"/profile"}
-                      className="dropdown-item d-flex align-items-center"
-                    >
-                      <i className="bi bi-person-circle me-2"></i>
-                      <span>My Profile</span>
-                    </Link>
-                    <Link
-                      to={"/profile"}
-                      className="dropdown-item d-flex align-items-center"
-                    >
-                      <i className="bi bi-bag-check me-2"></i>
-                      <span>My Orders</span>
-                    </Link>
-                  </div>
-                  <div className="dropdown-footer">
-                    <Link to={"/login"} className="btn btn-primary w-100 mb-2">
-                      Sign In
-                    </Link>
-                    <a
-                      href="register.html"
-                      className="btn btn-outline-primary w-100"
-                    >
-                      Register
-                    </a>
-                  </div>
-                </div>
-              </div>
+              {accountInfo(status)}
 
               {/* <!-- Wishlist --> */}
 
@@ -99,75 +196,51 @@ const Navbar = () => {
                   <span className="action-text d-none d-md-inline-block">
                     Cart
                   </span>
-                  <span className="badge">3</span>
+                  <span className="badge">{count}</span>
                 </button>
                 <div className="dropdown-menu cart-dropdown-menu">
                   <div className="dropdown-header">
-                    <h6>Shopping Cart (3)</h6>
+                    <h6>Shopping Cart ({count})</h6>
                   </div>
                   <div className="dropdown-body">
                     <div className="cart-items">
                       {/* <!-- Cart Item 1 --> */}
-                      <div className="cart-item">
-                        <div className="cart-item-image">
-                          <img
-                            src="assets/img/product/product-1.webp"
-                            alt="Product"
-                            className="img-fluid"
-                          />
-                        </div>
-                        <div className="cart-item-content">
-                          <h6 className="cart-item-title">
-                            Wireless Headphones
-                          </h6>
-                          <div className="cart-item-meta">1 × $89.99</div>
-                        </div>
-                        <button className="cart-item-remove">
-                          <i className="bi bi-x"></i>
-                        </button>
-                      </div>
-
-                      {/* <!-- Cart Item 2 --> */}
-                      <div className="cart-item">
-                        <div className="cart-item-image">
-                          <img
-                            src="assets/img/product/product-2.webp"
-                            alt="Product"
-                            className="img-fluid"
-                          />
-                        </div>
-                        <div className="cart-item-content">
-                          <h6 className="cart-item-title">Smart Watch</h6>
-                          <div className="cart-item-meta">1 × $129.99</div>
-                        </div>
-                        <button className="cart-item-remove">
-                          <i className="bi bi-x"></i>
-                        </button>
-                      </div>
-
-                      {/* <!-- Cart Item 3 --> */}
-                      <div className="cart-item">
-                        <div className="cart-item-image">
-                          <img
-                            src="assets/img/product/product-3.webp"
-                            alt="Product"
-                            className="img-fluid"
-                          />
-                        </div>
-                        <div className="cart-item-content">
-                          <h6 className="cart-item-title">Bluetooth Speaker</h6>
-                          <div className="cart-item-meta">1 × $59.99</div>
-                        </div>
-                        <button className="cart-item-remove">
-                          <i className="bi bi-x"></i>
-                        </button>
-                      </div>
+                      {cartList.map((product, key) => {
+                        return (
+                          <div className="cart-item" key={key}>
+                            <div className="cart-item-image">
+                              <img
+                                src={
+                                  "http://192.168.1.32:8000/images/" +
+                                  product.image
+                                }
+                                alt="Product"
+                                className="img-fluid"
+                              />
+                            </div>
+                            <div className="cart-item-content">
+                              <h6 className="cart-item-title">
+                                {product.product}
+                              </h6>
+                              <div className="cart-item-meta">
+                                {product.qty} × Rp.
+                                {Number(product.price).toLocaleString()}
+                              </div>
+                            </div>
+                            <button className="cart-item-remove">
+                              <i className="bi bi-x"></i>
+                            </button>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="dropdown-footer">
                     <div className="cart-total">
                       <span>Total:</span>
-                      <span className="cart-total-price">$279.97</span>
+                      <span className="cart-total-price">
+                        Rp.{Number(total).toLocaleString()}
+                      </span>
                     </div>
                     <div className="cart-actions">
                       <a href="cart.html" className="btn btn-outline-primary">
@@ -189,6 +262,6 @@ const Navbar = () => {
       </div>
     </>
   );
-};
+}
 
 export default Navbar;
