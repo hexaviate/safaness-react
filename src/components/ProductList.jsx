@@ -27,12 +27,11 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function ProductList() {
   const [productList, setProductList] = useState([]);
+  const [image, setImage] = useState([]);
 
   useEffect(() => {
     fetchProductList();
   }, []);
-
-  
 
   const fetchProductList = () => {
     axios.get("/admin/product").then(function (response) {
@@ -40,7 +39,6 @@ export default function ProductList() {
       console.log(response.data.data);
     });
   };
-
 
   return (
     <>
@@ -85,6 +83,11 @@ export default function ProductList() {
               >
                 {/* <!-- Product Item 1 --> */}
                 {productList.map((product, key) => {
+                  const firstImage = product.image?.[0]?.image;
+                  const secondImage = product.image?.[1]?.image;
+                  console.log(firstImage);
+                  
+
                   return (
                     <div
                       className="col-md-6 col-lg-3 product-item isotope-item filter-clothing"
@@ -93,13 +96,18 @@ export default function ProductList() {
                       <div className="product-card">
                         <div className="product-image">
                           <img
-                            src="assets/img/product/product-1.webp"
-                            alt="Product"
+                            src={
+                              "http://192.168.1.32:8000/images/" + firstImage
+                            }
+                            alt={product.name}
                             className="img-fluid main-img"
                           />
                           <img
-                            src="assets/img/product/product-1-variant.webp"
-                            alt="Product Hover"
+                            src={
+                              "http://192.168.1.32:8000/images/" + secondImage
+
+                            }
+                            alt={`${product.name} Hover`}
                             className="img-fluid hover-img"
                           />
                           <div className="product-overlay">

@@ -212,7 +212,7 @@ export default function ProductDetail() {
                               <button className="quantity-btn decrease">
                                 <i className="bi bi-dash"></i>
                               </button>
-                              <input type="number" className="quantity-input" onChange={(e) => setQty(e.target.value)} value={qty}/>
+                              <input type="number" className="quantity-input" onChange={(e) => setQty(e.target.value)} value={qty} placeholder="1"/>
                               <button className="quantity-btn increase">
                                 <i className="bi bi-plus"></i>
                               </button>
