@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 
-
 export default function ProductDetail() {
   const [id] = useState(useParams().id);
   const [product, setProductDetail] = useState([]);
@@ -28,23 +27,18 @@ export default function ProductDetail() {
       .catch(function (error) {
         console.error(error);
       });
-    };
-    
-    const handleSave = () => {
-      axios.post('/admin/cart', {
+  };
+
+  const handleSave = () => {
+    axios
+      .post("/admin/cart", {
         product_id: id,
-        qty: qty
+        qty: qty,
       })
-      .then(()=>{
-
-        setQty('');
-        navigate('/cart');
-        
-      }
-    )
-
-
-
+      .then(() => {
+        setQty("");
+        navigate("/cart");
+      });
   };
 
   return (
@@ -76,14 +70,19 @@ export default function ProductDetail() {
                                 <div
                                   className="thumbnail-item"
                                   data-image={
-                                  "http://192.168.0.100:8000/images/" +
+                                    "http://192.168.0.100:8000/images/" +
                                     data.image
                                   }
                                 >
                                   <img
+                                    //   src={
+                                    // "http://192.168.0.100:8000/images/" +
+                                    //     data.image
+                                    //   }
                                     src={
-                                  "http://192.168.0.100:8000/images/" +
-                                      data.image
+                                      "http://192.168.110.24:8000/images/" +
+                                detail.image[0].image
+                                      
                                     }
                                     alt="Product Thumbnail"
                                     className="img-fluid"
@@ -99,16 +98,21 @@ export default function ProductDetail() {
                           <div className="image-zoom-container">
                             <a
                               href={
-                                  "http://192.168.0.100:8000/images/" +
+                                "http://192.168.0.100:8000/images/" +
                                 detail.image[0].image
                               }
                               className="glightbox"
                               data-gallery="product-gallery"
                             >
                               <img
+                                // src={
+                                //   "http://192.168.0.100:8000/images/" +
+                                //   detail.image[0].image
+                                // }
                                 src={
-                                  "http://192.168.0.100:8000/images/" +
-                                  detail.image[0].image
+                                  "http://192.168.110.24:8000/images/" +
+                                detail.image[0].image
+                                  
                                 }
                                 alt="Product Image"
                                 className="img-fluid main-image drift-zoom"
@@ -201,9 +205,10 @@ export default function ProductDetail() {
                           <div className="option-group">
                             <div className="option-header">
                               <h6 className="option-title">Weight</h6>
-                              <span className="selected-option">{detail.weight}gr</span>
+                              <span className="selected-option">
+                                {detail.weight}gr
+                              </span>
                             </div>
-                            
                           </div>
                           {/* <!-- Quantity Selector --> */}
                           <div className="option-group">
@@ -212,7 +217,13 @@ export default function ProductDetail() {
                               <button className="quantity-btn decrease">
                                 <i className="bi bi-dash"></i>
                               </button>
-                              <input type="number" className="quantity-input" onChange={(e) => setQty(e.target.value)} value={qty} placeholder="1"/>
+                              <input
+                                type="number"
+                                className="quantity-input"
+                                onChange={(e) => setQty(e.target.value)}
+                                value={qty}
+                                placeholder="1"
+                              />
                               <button className="quantity-btn increase">
                                 <i className="bi bi-plus"></i>
                               </button>
@@ -222,7 +233,10 @@ export default function ProductDetail() {
 
                         {/* <!-- Action Buttons --> */}
                         <div className="product-actions">
-                          <button className="btn btn-primary add-to-cart-btn" onClick={handleSave}>
+                          <button
+                            className="btn btn-primary add-to-cart-btn"
+                            onClick={handleSave}
+                          >
                             <i className="bi bi-cart-plus"></i> Add to Cart
                           </button>
                           <button className="btn btn-outline-primary buy-now-btn">
@@ -317,9 +331,7 @@ export default function ProductDetail() {
                             <div className="accordion-body">
                               <div className="product-description">
                                 <h4>Product Overview</h4>
-                                <p>
-                                  {detail.description}
-                                </p>
+                                <p>{detail.description}</p>
                               </div>
                             </div>
                           </div>

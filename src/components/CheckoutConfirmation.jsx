@@ -3,10 +3,12 @@ import Navbar from "../layout/Navbar";
 import Navigation from "../layout/Navigation";
 import axios from "axios";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 export default function CheckoutConfirmation() {
   const [infolist, setInfoList] = useState([]);
   const [cartList, setCartList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchInfoList();
@@ -28,7 +30,15 @@ export default function CheckoutConfirmation() {
     });
   };
 
-  const date = dayjs(dateString).format("DD MMMM YYYY - HH:mm");
+  const handleSave = () => {
+    axios.post("/admin/transaction")
+    .then(function (res){
+      console.log(res.data.data);
+      navigate("/profile")
+    })
+  };
+
+  // const date = dayjs(dateString).format("DD MMMM YYYY - HH:mm");
 
   return (
     <>
@@ -144,7 +154,8 @@ export default function CheckoutConfirmation() {
                           Back to Cart
                         </button>
                         <button
-                          type="submit"
+                          type="button"
+                          onClick={handleSave}
                           class="btn btn-success place-order-btn"
                         >
                           Place Order
@@ -157,58 +168,66 @@ export default function CheckoutConfirmation() {
 
               <div class="col-lg-4">
                 {/* <!-- Order Summary --> */}
-                <div class="order-summary aos-init aos-animate" data-aos-delay="200">
+                <div
+                  class="order-summary aos-init aos-animate"
+                  data-aos-delay="200"
+                >
                   <div class="order-summary-header">
                     <h3>Order Summary</h3>
                     <button type="button" class="btn-toggle-summary d-lg-none">
                       <i class="bi bi-chevron-down"></i>
-                    </button> 
+                    </button>
                   </div>
 
                   <div class="order-summary-content">
                     <div class="order-items">
-                    {cartList.map((cart, key)=>{
-                      return(
-                      <div class="order-item" key={key}>
-                        <div class="order-item-image">
-                          <img
-                            src="assets/img/product/product-1.webp"
-                            alt="Product"
-                            class="img-fluid"
-                          />
-                        </div>
-                        <div class="order-item-details">
-                          <h4>{cart.product}</h4>
-                          <div class="order-item-price">
-                            <span class="quantity">{cart.qty} ×</span>
-                            <span class="price">Rp.{Number(cart.price).toLocaleString()}</span>
-                          </div>
-                        </div>
-                      </div>
-                        
-                      )
-                    })}
-
-                      {infolist.map((info, key)=>{
+                      {cartList.map((cart, key) => {
                         return (
-
-                      <div class="order-totals" key={key}>
-                        <div class="order-subtotal d-flex justify-content-between">
-                          <span>Subtotal</span>
-                          <span>Rp.{Number(info.subtotal).toLocaleString()}</span>
-                        </div>
-                        <div class="order-shipping d-flex justify-content-between">
-                          <span>Ongkir</span>
-                          <span>Rp.{Number(info.ongkir).toLocaleString()}</span>
-                        </div>
-                        <div class="order-total d-flex justify-content-between">
-                          <span>Total</span>
-                          <span>Rp.{Number(info.total).toLocaleString()}</span>
-                        </div>
-                      </div>
-                        )
+                          <div class="order-item" key={key}>
+                            <div class="order-item-image">
+                              <img
+                                src="assets/img/product/product-1.webp"
+                                alt="Product"
+                                class="img-fluid"
+                              />
+                            </div>
+                            <div class="order-item-details">
+                              <h4>{cart.product}</h4>
+                              <div class="order-item-price">
+                                <span class="quantity">{cart.qty} ×</span>
+                                <span class="price">
+                                  Rp.{Number(cart.price).toLocaleString()}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        );
                       })}
 
+                      {infolist.map((info, key) => {
+                        return (
+                          <div class="order-totals" key={key}>
+                            <div class="order-subtotal d-flex justify-content-between">
+                              <span>Subtotal</span>
+                              <span>
+                                Rp.{Number(info.subtotal).toLocaleString()}
+                              </span>
+                            </div>
+                            <div class="order-shipping d-flex justify-content-between">
+                              <span>Ongkir</span>
+                              <span>
+                                Rp.{Number(info.ongkir).toLocaleString()}
+                              </span>
+                            </div>
+                            <div class="order-total d-flex justify-content-between">
+                              <span>Total</span>
+                              <span>
+                                Rp.{Number(info.total).toLocaleString()}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
 
                       <div class="secure-checkout mt-4">
                         <div class="secure-checkout-header">

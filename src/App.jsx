@@ -11,6 +11,7 @@ import Login from './components/auth/Login'
 import CheckoutConfirmation from './components/CheckoutConfirmation'
 import Profile from './components/Profile'
 import ProductFiltered from './components/ProductFiltered'
+import Register from './components/auth/Register'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<ProductList/>}></Route>
         <Route path="/product" element={<ProductFiltered/>}></Route>
         <Route path="/login" element={<Login/>}></Route>
+        <Route path="/register" element={<Register/>}></Route>
         <Route path="/detail/:id" element={<ProductDetail/>}></Route>
         <Route path="/cart" element={<Cart/>}></Route>
         <Route path="/checkout" element={<CheckoutConfirmation/>}></Route>
