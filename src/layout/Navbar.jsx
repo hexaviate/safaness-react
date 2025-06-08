@@ -146,13 +146,13 @@ function Navbar() {
         <div className="container-fluid container-xl">
           <div className="d-flex py-3 align-items-center justify-content-between">
             {/* <!-- Logo --> */}
-            <a href="index.html" className="logo d-flex align-items-center">
+            <Link to={"/"} className="logo d-flex align-items-center">
               {/* <!-- Uncomment the line below if you also wish to use an image logo --> */}
               <img src={"http://192.168.1.32:8000/images/logoSmk.png"} alt="" />
               <h1 className="sitename">
                 Safa<span>Ness</span>
               </h1>
-            </a>
+            </Link>
 
             {/* <!-- Search --> */}
             <form className="search-form desktop-search-form" onSubmit={handleSubmit}>

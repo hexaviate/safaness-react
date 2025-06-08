@@ -318,16 +318,7 @@ export default function ProductDetail() {
                               <div className="product-description">
                                 <h4>Product Overview</h4>
                                 <p>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Vestibulum at lacus congue,
-                                  suscipit elit nec, tincidunt orci. Phasellus
-                                  egestas nisi vitae lectus imperdiet venenatis.
-                                  Suspendisse vulputate quam diam, et
-                                  consectetur augue condimentum in. Aenean
-                                  dapibus urna eget nisi pharetra, in iaculis
-                                  nulla blandit. Praesent at consectetur sem,
-                                  sed sollicitudin nibh. Ut interdum risus ac
-                                  nulla placerat aliquet.
+                                  {detail.description}
                                 </p>
                               </div>
                             </div>
