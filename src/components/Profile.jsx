@@ -6,15 +6,26 @@ import dayjs from "dayjs";
 
 export default function Profile() {
   const [info, setInfoList] = useState([]);
+    const [account, setAccount] = useState([]);
+  
 
   useEffect(() => {
     fetchInfoList();
+    fetchAccountDetail();
+
   }, []);
 
   const fetchInfoList = () => {
     axios.get("/transactionInfo").then((response) => {
       setInfoList(response.data.data);
       console.log([response.data.data]);
+    });
+  };
+
+    const fetchAccountDetail = () => {
+    axios.get("/accountDetail").then(function (response) {
+      setAccount([response.data.data]);
+      console.log(response.data);
     });
   };
 
@@ -408,34 +419,43 @@ export default function Profile() {
                                   <div class="order-summary">
                                     <div class="summary-row">
                                       <span>Subtotal:</span>
-                                      <span>$1,929.93</span>
+                                      <span>
+                                        Rp.
+                                        {Number(
+                                          transaction.subtotal
+                                        ).toLocaleString()}
+                                      </span>
                                     </div>
                                     <div class="summary-row">
-                                      <span>Shipping:</span>
-                                      <span>$15.99</span>
-                                    </div>
-                                    <div class="summary-row">
-                                      <span>Tax:</span>
-                                      <span>$159.98</span>
+                                      <span>Ongkir:</span>
+                                      <span>
+                                        Rp.
+                                        {Number(
+                                          transaction.ongkir
+                                        ).toLocaleString()}
+                                      </span>
                                     </div>
                                     <div class="summary-row total">
                                       <span>Total:</span>
-                                      <span>$2,105.90</span>
+                                      <span>
+                                        Rp.
+                                        {Number(
+                                          transaction.total
+                                        ).toLocaleString()}
+                                      </span>
                                     </div>
                                   </div>
                                   <div class="shipping-info">
-                                    <div class="shipping-address">
+                                    {account.map((acc, e)=>{
+                                      return(
+                                    <div class="shipping-address" key={e}>
                                       <h6>Shipping Address</h6>
                                       <p>
-                                        123 Main Street
-                                        <br />
-                                        Apt 4B
-                                        <br />
-                                        New York, NY 10001
-                                        <br />
-                                        United States
+                                        {acc.address}
                                       </p>
                                     </div>
+                                      )
+                                    })}
                                     <div class="shipping-method">
                                       <h6>Shipping Method</h6>
                                       <p>

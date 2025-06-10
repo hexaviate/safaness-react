@@ -28,16 +28,18 @@ export default function Cart() {
   };
 
   const handleUpdate = (id, newQty) => [
-    axios.put(`/admin/cart/${id}`, { qty: newQty})
-    .then(()=> fetchCartList())
-    .catch((err) => console.error("update Failed:", err))
-  ]
+    axios
+      .put(`/admin/cart/${id}`, { qty: newQty })
+      .then(() => fetchCartList())
+      .catch((err) => console.error("update Failed:", err)),
+  ];
 
   const handleDelete = (id) => {
-    axios.delete(`/admin/cart/${id}`)
-    .then(() => fetchCartList())
-    .catch((err) => console.error("deleted faielde", err));
-  }
+    axios
+      .delete(`/admin/cart/${id}`)
+      .then(() => fetchCartList())
+      .catch((err) => console.error("deleted faielde", err));
+  };
 
   return (
     <>
@@ -98,15 +100,22 @@ export default function Cart() {
                             <div className="product-info d-flex align-items-center">
                               <div className="product-image">
                                 <img
-                                  src="assets/img/product/product-1.webp"
+                                  src={
+                                    "http://192.168.1.32:8000/images/" +
+                                    cart.image
+                                  }
                                   alt="Product"
                                   className="img-fluid"
                                   loading="lazy"
                                 />
                               </div>
                               <div className="product-details">
-                                <h6 className="product-title">{cart.product}</h6>
-                                <button className="remove-item" type="button"
+                                <h6 className="product-title">
+                                  {cart.product}
+                                </h6>
+                                <button
+                                  className="remove-item"
+                                  type="button"
                                   onClick={() => handleDelete(cart.id)}
                                 >
                                   <i className="bi bi-trash"></i> Remove
@@ -116,14 +125,20 @@ export default function Cart() {
                           </div>
                           <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                             <div className="price-tag">
-                              <span className="current-price">Rp.{Number(cart.price).toLocaleString()}</span>
+                              <span className="current-price">
+                                Rp.{Number(cart.price).toLocaleString()}
+                              </span>
                             </div>
                           </div>
                           <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                             <div className="quantity-selector">
-                              <button className="quantity-btn decrease"
+                              <button
+                                className="quantity-btn decrease"
                                 onClick={() => {
-                                  const newQty = Math.max(1, parseInt(cart.qty)- 1);
+                                  const newQty = Math.max(
+                                    1,
+                                    parseInt(cart.qty) - 1
+                                  );
                                   handleUpdate(cart.id, newQty);
                                 }}
                               >
@@ -141,8 +156,9 @@ export default function Cart() {
                                   setCartList(updatedCart);
                                 }}
                               />
-                              <button className="quantity-btn increase"
-                                onClick={()=>{
+                              <button
+                                className="quantity-btn increase"
+                                onClick={() => {
                                   const newQty = parseInt(cart.qty) + 1;
                                   handleUpdate(cart.id, newQty);
                                 }}
@@ -158,7 +174,9 @@ export default function Cart() {
                           </div>
                           <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                             <div className="item-total">
-                              <span>Rp.{Number(cart.price_total).toLocaleString()}</span>
+                              <span>
+                                Rp.{Number(cart.price_total).toLocaleString()}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -195,22 +213,28 @@ export default function Cart() {
 
                       <div className="summary-item">
                         <span className="summary-label">Subtotal</span>
-                        <span className="summary-value">Rp.{Number(info.subtotal).toLocaleString()}</span>
+                        <span className="summary-value">
+                          Rp.{Number(info.subtotal).toLocaleString()}
+                        </span>
                       </div>
                       <div className="summary-item">
                         <span className="summary-label">Ongkir</span>
-                        <span className="summary-value">Rp.{Number(info.ongkir).toLocaleString()}</span>
+                        <span className="summary-value">
+                          Rp.{Number(info.ongkir).toLocaleString()}
+                        </span>
                       </div>
 
                       <div className="summary-total">
                         <span className="summary-label">Total</span>
-                        <span className="summary-value">Rp.{Number(info.total).toLocaleString()}</span>
+                        <span className="summary-value">
+                          Rp.{Number(info.total).toLocaleString()}
+                        </span>
                       </div>
 
                       <div className="checkout-button">
-
                         <Link to={"/checkout"} className="btn btn-accent w-100">
-                          Proceed to Checkout <i className="bi bi-arrow-right"></i>
+                          Proceed to Checkout{" "}
+                          <i className="bi bi-arrow-right"></i>
                         </Link>
                       </div>
 

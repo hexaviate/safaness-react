@@ -186,7 +186,10 @@ export default function CheckoutConfirmation() {
                           <div class="order-item" key={key}>
                             <div class="order-item-image">
                               <img
-                                src="assets/img/product/product-1.webp"
+                                src={
+                                  "http://192.168.1.32:8000/images/" +
+                                  cart.image
+                                }
                                 alt="Product"
                                 class="img-fluid"
                               />

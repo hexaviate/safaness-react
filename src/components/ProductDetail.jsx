@@ -79,10 +79,13 @@ export default function ProductDetail() {
                                     // "http://192.168.0.100:8000/images/" +
                                     //     data.image
                                     //   }
+                                    // src={
+                                    //   "http://192.168.110.24:8000/images/" +
+                                    //   detail.image[0].image
+                                    // }
                                     src={
-                                      "http://192.168.110.24:8000/images/" +
-                                detail.image[0].image
-                                      
+                                      "http://192.168.1.32:8000/images/" +
+                                      detail.image[0].image
                                     }
                                     alt="Product Thumbnail"
                                     className="img-fluid"
@@ -109,10 +112,13 @@ export default function ProductDetail() {
                                 //   "http://192.168.0.100:8000/images/" +
                                 //   detail.image[0].image
                                 // }
+                                // src={
+                                //   "http://192.168.110.24:8000/images/" +
+                                //   detail.image[0].image
+                                // }
                                 src={
-                                  "http://192.168.110.24:8000/images/" +
-                                detail.image[0].image
-                                  
+                                  "http://192.168.1.32:8000/images/" +
+                                  detail.image[0].image
                                 }
                                 alt="Product Image"
                                 className="img-fluid main-image drift-zoom"
