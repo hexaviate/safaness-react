@@ -3,16 +3,19 @@ import Navbar from "../layout/Navbar";
 import Navigation from "../layout/Navigation";
 import axios from "axios";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const [info, setInfoList] = useState([]);
-    const [account, setAccount] = useState([]);
-  
+  const [account, setAccount] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    }
     fetchInfoList();
     fetchAccountDetail();
-
   }, []);
 
   const fetchInfoList = () => {
@@ -22,7 +25,7 @@ export default function Profile() {
     });
   };
 
-    const fetchAccountDetail = () => {
+  const fetchAccountDetail = () => {
     axios.get("/accountDetail").then(function (response) {
       setAccount([response.data.data]);
       console.log(response.data);
@@ -59,7 +62,6 @@ export default function Profile() {
     <>
       <header id="header" className="header position-relative">
         <Navbar />
-        <Navigation />
       </header>
 
       <main class="main">
@@ -107,13 +109,16 @@ export default function Profile() {
                   <div class="profile-avatar">
                     <span>S</span>
                   </div>
-                  <div class="profile-info">
-                    <h4>Sarah Anderson</h4>
-                    <div class="profile-bonus">
-                      <i class="bi bi-gift"></i>
-                      <span>100 bonuses available</span>
-                    </div>
-                  </div>
+                  {account.map((acc, e) => {
+                    return (
+                      <div class="profile-info">
+                        <h4>{acc.name}</h4>
+                        <div class="profile-bonus">
+                          <i class="bi bi-gift"></i>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 <div class="profile-nav">
@@ -326,24 +331,22 @@ export default function Profile() {
                               </div>
                               <div class="order-products">
                                 <div class="product-thumbnails">
-                                  <img
-                                    src="assets/img/product/product-1.webp"
-                                    alt="Product"
-                                    class="product-thumb"
-                                    loading="lazy"
-                                  />
-                                  <img
-                                    src="assets/img/product/product-2.webp"
-                                    alt="Product"
-                                    class="product-thumb"
-                                    loading="lazy"
-                                  />
-                                  <img
-                                    src="assets/img/product/product-3.webp"
-                                    alt="Product"
-                                    class="product-thumb"
-                                    loading="lazy"
-                                  />
+                                  {transaction.transaction_details.map(
+                                    (detail, j) => {
+                                      return (
+                                        <img
+                                          key={j}
+                                          src={
+                                            "http://192.168.1.100:8000/images/" +
+                                            detail.product.image
+                                          }
+                                          alt="Product"
+                                          class="product-thumb"
+                                          loading="lazy"
+                                        />
+                                      );
+                                    }
+                                  )}
                                 </div>
                                 <button
                                   type="button"
@@ -389,7 +392,10 @@ export default function Profile() {
                                           <div class="order-item-detail">
                                             <div class="item-image">
                                               <img
-                                                src="assets/img/product/product-1.webp"
+                                                src={
+                                                  "http://192.168.1.100:8000/images/" +
+                                                  detail.product.image
+                                                }
                                                 alt="Product"
                                                 loading="lazy"
                                               />
@@ -446,21 +452,17 @@ export default function Profile() {
                                     </div>
                                   </div>
                                   <div class="shipping-info">
-                                    {account.map((acc, e)=>{
-                                      return(
-                                    <div class="shipping-address" key={e}>
-                                      <h6>Shipping Address</h6>
-                                      <p>
-                                        {acc.address}
-                                      </p>
-                                    </div>
-                                      )
+                                    {account.map((acc, e) => {
+                                      return (
+                                        <div class="shipping-address" key={e}>
+                                          <h6>Shipping Address</h6>
+                                          <p>{acc.address}</p>
+                                        </div>
+                                      );
                                     })}
                                     <div class="shipping-method">
-                                      <h6>Shipping Method</h6>
-                                      <p>
-                                        Express Delivery (2-3 business days)
-                                      </p>
+                                      <h6>Informasi</h6>
+                                      <p>{transaction.information}</p>
                                     </div>
                                   </div>
                                 </div>

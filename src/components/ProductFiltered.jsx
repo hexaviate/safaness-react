@@ -52,7 +52,6 @@ export default function ProductFiltered() {
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <header id="header" className="header position-relative">
           <Navbar />
-          <Navigation />
         </header>
 
         <main className="main">
@@ -103,14 +102,14 @@ export default function ProductFiltered() {
                         <div className="product-image">
                           <img
                             src={
-                              "http://192.168.1.32:8000/images/" + firstImage
+                              "http://192.168.1.100:8000/images/" + firstImage
                             }
                             alt={product.name}
                             className="img-fluid main-img"
                           />
                           <img
                             src={
-                              "http://192.168.1.32:8000/images/" + secondImage
+                              "http://192.168.1.100:8000/images/" + secondImage
                             }
                             alt={`${product.name} Hover`}
                             className="img-fluid hover-img"

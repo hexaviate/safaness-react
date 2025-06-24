@@ -10,7 +10,7 @@ const token = localStorage.getItem('token');
 //kalo dirumah
 // axios.defaults.baseURL = "http://192.168.110.24:8000/api";
 //klo dirumah dirumah =
-axios.defaults.baseURL = "http://192.168.1.32:8000/api";
+axios.defaults.baseURL = "http://192.168.1.100:8000/api";
 
 axios.defaults.headers.common = {"Authorization" : `Bearer ${token}`};
 createRoot(document.getElementById('root')).render(
