@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 export default function ProductDetail() {
   const [id] = useState(useParams().id);
   const [product, setProductDetail] = useState([]);
-  const [qty, setQty] = useState("");
+  const [qty, setQty] = useState("1");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,7 +46,6 @@ export default function ProductDetail() {
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <header id="header" className="header position-relative">
           <Navbar />
-          <Navigation />
         </header>
 
         <main className="main">
@@ -70,7 +69,7 @@ export default function ProductDetail() {
                                 <div
                                   className="thumbnail-item"
                                   data-image={
-                                    "http://192.168.0.100:8000/images/" +
+                                    "http://192.168.1.100:8000/images/" +
                                     data.image
                                   }
                                 >

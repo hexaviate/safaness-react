@@ -52,7 +52,6 @@ export default function ProductFiltered() {
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <header id="header" className="header position-relative">
           <Navbar />
-          <Navigation />
         </header>
 
         <main className="main">

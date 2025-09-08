@@ -86,6 +86,7 @@ export default function ProductList() {
                   const firstImage = product.image?.[0]?.image;
                   const secondImage = product.image?.[1]?.image;
                   console.log(firstImage);
+                  
 
                   return (
                     <div

@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../layout/Navbar";
 import Navigation from "../layout/Navigation";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const [cartList, setCartList] = useState([]);
   const [infoList, setInfoList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    }
     fetchCartList();
     fetchInfoList();
   }, []);
@@ -45,7 +49,6 @@ export default function Cart() {
     <>
       <header id="header" className="header position-relative">
         <Navbar />
-        <Navigation />
       </header>
 
       <main className="main">
@@ -243,9 +246,9 @@ export default function Cart() {
                       </div>
 
                       <div className="continue-shopping">
-                        <a href="#" className="btn btn-link w-100">
+                        <Link to={"/"} className="btn btn-link w-100">
                           <i className="bi bi-arrow-left"></i> Continue Shopping
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   );

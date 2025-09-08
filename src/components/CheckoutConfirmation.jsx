@@ -11,6 +11,9 @@ export default function CheckoutConfirmation() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    }
     fetchInfoList();
     fetchCartList();
   }, []);
@@ -31,11 +34,10 @@ export default function CheckoutConfirmation() {
   };
 
   const handleSave = () => {
-    axios.post("/admin/transaction")
-    .then(function (res){
+    axios.post("/admin/transaction").then(function (res) {
       console.log(res.data.data);
-      navigate("/profile")
-    })
+      navigate("/profile");
+    });
   };
 
   // const date = dayjs(dateString).format("DD MMMM YYYY - HH:mm");
@@ -44,7 +46,6 @@ export default function CheckoutConfirmation() {
     <>
       <header id="header" className="header position-relative">
         <Navbar />
-        <Navigation />
       </header>
 
       <main className="main">

@@ -125,12 +125,12 @@ function Navbar() {
                   <Link to={"/login"} className="btn btn-primary w-100 mb-2">
                     Sign In
                   </Link>
-                  <a
-                    href="register.html"
+                  <Link
+                    to={"/register"}
                     className="btn btn-outline-primary w-100"
                   >
                     Register
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -148,7 +148,7 @@ function Navbar() {
             {/* <!-- Logo --> */}
             <Link to={"/"} className="logo d-flex align-items-center">
               {/* <!-- Uncomment the line below if you also wish to use an image logo --> */}
-              <img src={"http://192.168.1.32:8000/images/logoSmk.png"} alt="" />
+              <img src={"http://192.168.1.100:8000/images/logoSmk.png"} alt="" />
               <h1 className="sitename">
                 Safa<span>Ness</span>
               </h1>
@@ -243,12 +243,12 @@ function Navbar() {
                       </span>
                     </div>
                     <div className="cart-actions">
-                      <a href="cart.html" className="btn btn-outline-primary">
+                      <Link to={"/cart"} className="btn btn-outline-primary">
                         View Cart
-                      </a>
-                      <a href="checkout.html" className="btn btn-primary">
+                      </Link>
+                      <Link to={"/checkout"} className="btn btn-primary">
                         Checkout
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
