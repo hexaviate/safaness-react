@@ -59,7 +59,6 @@ export default function Profile() {
     <>
       <header id="header" className="header position-relative">
         <Navbar />
-        <Navigation />
       </header>
 
       <main class="main">

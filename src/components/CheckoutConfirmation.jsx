@@ -97,6 +97,7 @@ export default function CheckoutConfirmation() {
                               </div>
                               <div class="review-section-content">
                                 <p class="review-name">{info.name}</p>
+                                <p class="review-email">{info.email}</p>
                                 <p class="review-phone">+62 {info.phone}</p>
                               </div>
                             </div>
@@ -187,9 +188,13 @@ export default function CheckoutConfirmation() {
                             <div class="order-item-image">
                               <img
                                 src={
-                                  "http://192.168.1.32:8000/images/" +
+                                  "http://192.168.0.100:8000/images/" +
                                   cart.image
                                 }
+                                // src={
+                                //   "http://192.168.1.32:8000/images/" +
+                                //   cart.image
+                                // }
                                 alt="Product"
                                 class="img-fluid"
                               />

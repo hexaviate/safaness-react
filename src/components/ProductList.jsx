@@ -45,7 +45,7 @@ export default function ProductList() {
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <header id="header" className="header position-relative">
           <Navbar />
-          <Navigation />
+          {/* <Navigation /> */}
         </header>
 
         <main className="main">
@@ -86,7 +86,6 @@ export default function ProductList() {
                   const firstImage = product.image?.[0]?.image;
                   const secondImage = product.image?.[1]?.image;
                   console.log(firstImage);
-                  
 
                   return (
                     <div
@@ -100,24 +99,39 @@ export default function ProductList() {
                             //   "http://192.168.110.24:8000/images/" + firstImage
                             // }
                             src={
-                              "http://192.168.1.32:8000/images/" + firstImage
+                              "http://192.168.0.100:8000/images/" + firstImage
                             }
+                            // src={
+                            //   "http://192.168.1.32:8000/images/" + firstImage
+                            // }
+                            // src={
+                            //   "http://127.0.0.1:8000/images/" + firstImage
+                            // }
                             alt={product.name}
                             className="img-fluid main-img"
                           />
                           <img
+                            // src={
+                            //   "http://192.168.1.32:8000/images/" + secondImage
+                            // }
+                            // src={
+                            //   "http://127.0.0.1:8000/images/" + secondImage
+                            // }
                             src={
-                              "http://192.168.1.32:8000/images/" + secondImage
+                              "http://192.168.0.100:8000/images/" + secondImage
                             }
                             // src={
                             //   "http://192.168.110.24:8000/images/" + secondImage
                             // }
-                            
+
                             alt={`${product.name} Hover`}
                             className="img-fluid hover-img"
                           />
                           <div className="product-overlay">
-                            <Link to={`/detail/${product.id}`} className="btn-cart">
+                            <Link
+                              to={`/detail/${product.id}`}
+                              className="btn-cart"
+                            >
                               <i className="bi bi-cart-plus"></i> Add to Cart
                             </Link>
                             <div className="product-actions">
@@ -152,10 +166,6 @@ export default function ProductList() {
                 {}
 
                 {/* <!-- End Product Item --> */}
-
-                
-
-                
               </div>
 
               <div className="text-center mt-5" data-aos="fade-up">

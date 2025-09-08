@@ -11,11 +11,12 @@ export default function Register() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [zip_code, setZipcode] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   const handleSave = async () => {
     try {
-        console.log({ username, password, phone, address, zip_code });
+      console.log({ username, password, phone, address, zip_code, email });
       await axios
         .post("/buyer/register", {
           username: username,
@@ -23,12 +24,13 @@ export default function Register() {
           phone: phone,
           address: address,
           zip_code: zip_code,
+          email: email,
         })
         .then(function (response) {
           console.log(response.data);
           let status = response.data.status;
           let token = response.data.token;
-          
+
           if (status == "success") {
             localStorage.setItem("token", token);
             navigate("/");
@@ -41,7 +43,6 @@ export default function Register() {
       } else {
         console.log("ada error tapi bukan error yang itu", error.message);
         console.error(error);
-        
       }
     }
 
@@ -59,7 +60,6 @@ export default function Register() {
     <>
       <header id="header" className="header position-relative">
         <Navbar />
-        <Navigation />
       </header>
 
       <section id="register" className="register section">
@@ -91,6 +91,21 @@ export default function Register() {
                           }}
                         />
                       </div>
+                    </div>
+                    <div class="form-group mb-3">
+                      <label for="email">Email Address</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        name="email"
+                        id="email"
+                        required=""
+                        placeholder="you@example.com"
+                        value={email}
+                        onChange={(event) => {
+                          setEmail(event.target.value);
+                        }}
+                      />
                     </div>
                     <div className="col-md-12 mb-3">
                       <div className="form-group">
@@ -169,7 +184,11 @@ export default function Register() {
 
                   <div className="form-group mb-4"></div>
                   <div className="text-center mb-4">
-                    <button type="button" onClick={handleSave} className="btn btn-primary w-100">
+                    <button
+                      type="button"
+                      onClick={handleSave}
+                      className="btn btn-primary w-100"
+                    >
                       Create Account
                     </button>
                   </div>

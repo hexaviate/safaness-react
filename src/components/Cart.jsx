@@ -101,9 +101,13 @@ export default function Cart() {
                               <div className="product-image">
                                 <img
                                   src={
-                                    "http://192.168.1.32:8000/images/" +
+                                    "http://192.168.0.100:8000/images/" +
                                     cart.image
                                   }
+                                  // src={
+                                  //   "http://192.168.1.32:8000/images/" +
+                                  //   cart.image
+                                  // }
                                   alt="Product"
                                   className="img-fluid"
                                   loading="lazy"
