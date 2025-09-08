@@ -336,10 +336,14 @@ export default function Profile() {
                                       return (
                                         <img
                                           key={j}
+                                          // src={
+                                          //   "http://192.168.1.100:8000/images/" +
+                                          //   detail.product.image
+                                          // }
                                           src={
-                                            "http://192.168.1.100:8000/images/" +
-                                            detail.product.image
-                                          }
+                                      "http://127.0.0.1:8000/images/" +
+                                      detail.image[0].image
+                                    }
                                           alt="Product"
                                           class="product-thumb"
                                           loading="lazy"
@@ -392,10 +396,14 @@ export default function Profile() {
                                           <div class="order-item-detail">
                                             <div class="item-image">
                                               <img
+                                                // src={
+                                                //   "http://192.168.1.100:8000/images/" +
+                                                //   detail.product.image
+                                                // }
                                                 src={
-                                                  "http://192.168.1.100:8000/images/" +
-                                                  detail.product.image
-                                                }
+                                      "http://127.0.0.1:8000/images/" +
+                                      detail.image[0].image
+                                    }
                                                 alt="Product"
                                                 loading="lazy"
                                               />

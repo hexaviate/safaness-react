@@ -99,15 +99,15 @@ export default function ProductList() {
                             // src={
                             //   "http://192.168.110.24:8000/images/" + firstImage
                             // }
-                            src={
-                              "http://192.168.0.100:8000/images/" + firstImage
-                            }
+                            // src={
+                            //   "http://192.168.0.100:8000/images/" + firstImage
+                            // }
                             // src={
                             //   "http://192.168.1.32:8000/images/" + firstImage
                             // }
-                            // src={
-                            //   "http://127.0.0.1:8000/images/" + firstImage
-                            // }
+                            src={
+                              "http://127.0.0.1:8000/images/" + firstImage
+                            }
                             alt={product.name}
                             className="img-fluid main-img"
                           />
@@ -115,12 +115,12 @@ export default function ProductList() {
                             // src={
                             //   "http://192.168.1.32:8000/images/" + secondImage
                             // }
-                            // src={
-                            //   "http://127.0.0.1:8000/images/" + secondImage
-                            // }
                             src={
-                              "http://192.168.0.100:8000/images/" + secondImage
+                              "http://127.0.0.1:8000/images/" + secondImage
                             }
+                            // src={
+                            //   "http://192.168.0.100:8000/images/" + secondImage
+                            // }
                             // src={
                             //   "http://192.168.110.24:8000/images/" + secondImage
                             // }

@@ -188,10 +188,14 @@ export default function CheckoutConfirmation() {
                           <div class="order-item" key={key}>
                             <div class="order-item-image">
                               <img
+                                // src={
+                                //   "http://192.168.0.100:8000/images/" +
+                                //   cart.image
+                                // }
                                 src={
-                                  "http://192.168.0.100:8000/images/" +
-                                  cart.image
-                                }
+                                      "http://127.0.0.1:8000/images/" +
+                                      detail.image[0].image
+                                    }
                                 // src={
                                 //   "http://192.168.1.32:8000/images/" +
                                 //   cart.image

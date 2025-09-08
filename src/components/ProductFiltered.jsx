@@ -104,12 +104,12 @@ export default function ProductFiltered() {
                             // src={
                             //   "http://192.168.1.32:8000/images/" + firstImage
                             // }
-                            src={
-                              "http://192.168.0.100:8000/images/" + firstImage
-                            }
                             // src={
-                            //   "http://127.0.0.1:8000/images/" + firstImage
+                            //   "http://192.168.0.100:8000/images/" + firstImage
                             // }
+                            src={
+                              "http://127.0.0.1:8000/images/" + firstImage
+                            }
                             alt={product.name}
                             className="img-fluid main-img"
                           />
