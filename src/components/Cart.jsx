@@ -108,9 +108,8 @@ export default function Cart() {
                                   //   cart.image
                                   // }
                                   src={
-                                      "http://127.0.0.1:8000/images/" +
-                                      detail.image[0].image
-                                    }
+                                    "http://127.0.0.1:8000/images/" + cart.image
+                                  }
                                   // src={
                                   //   "http://192.168.1.32:8000/images/" +
                                   //   cart.image
