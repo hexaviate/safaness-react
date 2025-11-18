@@ -228,9 +228,9 @@ export default function Cart() {
                         </span>
                       </div>
                       <div className="summary-item">
-                        <span className="summary-label">Ongkir</span>
+                        <span className="summary-label">Biaya Layanan</span>
                         <span className="summary-value">
-                          Rp.{Number(info.ongkir).toLocaleString()}
+                          Rp.{Number(info.biaya_layanan).toLocaleString()}
                         </span>
                       </div>
 

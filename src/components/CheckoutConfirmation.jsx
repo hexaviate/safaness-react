@@ -8,20 +8,38 @@ import { useNavigate } from "react-router-dom";
 export default function CheckoutConfirmation() {
   const [infolist, setInfoList] = useState([]);
   const [cartList, setCartList] = useState([]);
+  const [courier, setCourier] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/login");
     }
-    fetchInfoList();
+    // fetchInfoList();
     fetchCartList();
   }, []);
 
+  useEffect(() => {
+    fetchInfoList(); // panggil ulang setiap kali courier berubah
+  }, [courier]);
+
   const fetchInfoList = () => {
-    axios.get("/infoCart").then((response) => {
+    axios
+      .post("/infoCart2", {
+        courier: courier,
+      })
+      .then((response) => {
+        setInfoList([response.data.data]);
+      });
+  };
+
+  const handleCourierChange = (e) => {
+    const selectedCourier = e.target.value;
+    setCourier(selectedCourier);
+
+    // Panggil API ulang berdasarkan kurir
+    axios.post("/infoCart2", { courier: selectedCourier }).then((response) => {
       setInfoList([response.data.data]);
-      console.log(response.data.data);
     });
   };
 
@@ -34,10 +52,14 @@ export default function CheckoutConfirmation() {
   };
 
   const handleSave = () => {
-    axios.post("/admin/transaction").then(function (res) {
-      console.log(res.data.data);
-      navigate("/profile");
-    });
+    axios
+      .post("/admin/transaction", {
+        courier: courier,
+      })
+      .then(function (res) {
+        console.log(res.data.data);
+        navigate("/profile");
+      });
   };
 
   // const date = dayjs(dateString).format("DD MMMM YYYY - HH:mm");
@@ -133,10 +155,22 @@ export default function CheckoutConfirmation() {
                                 </button>
                               </div>
                               <div class="review-section-content">
-                                <p>
-                                  <i class="bi bi-credit-card-2-front me-2"></i>{" "}
-                                  JNT (COD)
-                                </p>
+                                <div>
+                                  <label htmlFor="fruit-select">
+                                    Pick a courier:
+                                  </label>
+                                  <select
+                                    id="courier-select"
+                                    value={courier}
+                                    onChange={handleCourierChange}
+                                  >
+                                    <option value="">--Pilih Kurir--</option>
+                                    <option value="jne">JNE</option>
+                                    <option value="jnt">J&T</option>
+                                    <option value="tiki">TIKI</option>
+                                  </select>
+                                  <p>You selected: {setCourier}</p>
+                                </div>
                               </div>
                             </div>
                           </div>
