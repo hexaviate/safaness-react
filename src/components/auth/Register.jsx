@@ -34,6 +34,7 @@ export default function Register() {
           if (status == "success") {
             localStorage.setItem("token", token);
             navigate("/");
+            window.location.reload();
           }
           console.log(status);
         });
