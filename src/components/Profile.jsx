@@ -341,9 +341,9 @@ export default function Profile() {
                                           //   detail.product.image
                                           // }
                                           src={
-                                      "http://127.0.0.1:8000/images/" +
-                                      detail.image[0].image
-                                    }
+                                            "http://127.0.0.1:8000/images/" +
+                                            detail.product.image
+                                          }
                                           alt="Product"
                                           class="product-thumb"
                                           loading="lazy"
@@ -401,9 +401,10 @@ export default function Profile() {
                                                 //   detail.product.image
                                                 // }
                                                 src={
-                                      "http://127.0.0.1:8000/images/" +
-                                      detail.image[0].image
-                                    }
+                                                  "http://127.0.0.1:8000/images/" +
+                                                  // detail.image[0].image
+                                                  detail.product.image
+                                                }
                                                 alt="Product"
                                                 loading="lazy"
                                               />

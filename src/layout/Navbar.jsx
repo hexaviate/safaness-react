@@ -36,6 +36,13 @@ function Navbar() {
     });
   };
 
+  const logout = () => {
+    axios.post("/buyer/logout").then(function (response) {
+      console.log(response.data);
+      window.location.reload();
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     navigate(`/product?search=${encodeURIComponent(search)}`);
@@ -80,6 +87,13 @@ function Navbar() {
                         <i className="bi bi-bag-check me-2"></i>
                         <span>My Orders</span>
                       </Link>
+                      <button
+                        className="dropdown-item d-flex align-items-center"
+                        onClick={logout}
+                      >
+                        <i className="bi bi-bag-check me-2"></i>
+                        <span>Logout</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -148,14 +162,20 @@ function Navbar() {
             {/* <!-- Logo --> */}
             <Link to={"/"} className="logo d-flex align-items-center">
               {/* <!-- Uncomment the line below if you also wish to use an image logo --> */}
-              <img src={"http://192.168.1.100:8000/images/logoSmk.png"} alt="" />
+              <img
+                src={"http://192.168.1.100:8000/images/logoSmk.png"}
+                alt=""
+              />
               <h1 className="sitename">
                 Safa<span>Ness</span>
               </h1>
             </Link>
 
             {/* <!-- Search --> */}
-            <form className="search-form desktop-search-form" onSubmit={handleSubmit}>
+            <form
+              className="search-form desktop-search-form"
+              onSubmit={handleSubmit}
+            >
               <div className="input-group">
                 <input
                   type="text"

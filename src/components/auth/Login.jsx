@@ -23,6 +23,7 @@ export default function Login() {
           if (status == "success") {
             localStorage.setItem("token", token);
             navigate("/");
+            window.location.reload();
           }
         });
     } catch (error) {
@@ -45,11 +46,11 @@ export default function Login() {
 
   return (
     <>
-        <header id="header" className="header position-relative">
-          <Navbar />
-          <Navigation />
-        </header>
-    
+      <header id="header" className="header position-relative">
+        <Navbar />
+        <Navigation />
+      </header>
+
       {/* <!-- Page Title --> */}
       <div className="page-title light-background position-relative">
         <div className="container">
@@ -70,9 +71,7 @@ export default function Login() {
       <section id="login" className="login section">
         <div className="container">
           <div className="row justify-content-center">
-            <div
-              className="col-lg-5 col-md-8"
-            >
+            <div className="col-lg-5 col-md-8">
               <div className="login-form-wrapper">
                 <div className="login-header text-center">
                   <h2>Login</h2>
@@ -122,7 +121,11 @@ export default function Login() {
                   </div>
 
                   <div className="d-grid gap-2 mb-4">
-                    <button type="button" className="btn btn-primary"  onClick={handleSave}>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleSave}
+                    >
                       Sign in
                     </button>
                   </div>
