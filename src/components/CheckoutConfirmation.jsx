@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Navbar from "../layout/Navbar";
 import Navigation from "../layout/Navigation";
 import axios from "axios";
-import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
 export default function CheckoutConfirmation() {
@@ -263,6 +263,12 @@ export default function CheckoutConfirmation() {
                               <span>Ongkir</span>
                               <span>
                                 Rp.{Number(info.ongkir).toLocaleString()}
+                              </span>
+                            </div>
+                            <div class="order-shipping d-flex justify-content-between">
+                              <span>Biaya Layanan</span>
+                              <span>
+                                Rp.{Number(info.biaya_layanan).toLocaleString()}
                               </span>
                             </div>
                             <div class="order-total d-flex justify-content-between">
