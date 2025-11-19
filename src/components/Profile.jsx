@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Navbar from "../layout/Navbar";
 import Navigation from "../layout/Navigation";
 import axios from "axios";
 import dayjs from "dayjs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Profile() {
   const [info, setInfoList] = useState([]);
@@ -282,7 +283,7 @@ export default function Profile() {
                     <div class="orders-table">
                       <div class="table-header">
                         <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-md-1">
                             <div class="sort-header">Order #</div>
                           </div>
                           <div class="col-md-3">
@@ -300,6 +301,12 @@ export default function Profile() {
                               <i class="bi bi-arrow-down-up"></i>
                             </div>
                           </div>
+                          <div class="col-md-2">
+                            <div class="sort-header">
+                              action
+                              <i class="bi bi-arrow-down-up"></i>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
@@ -313,7 +320,7 @@ export default function Profile() {
                           return (
                             <div class="order-item" key={key}>
                               <div class="row align-items-center">
-                                <div class="col-md-3">
+                                <div class="col-md-1">
                                   <div class="order-id">#{transaction.id}</div>
                                 </div>
                                 <div class="col-md-3">
@@ -326,6 +333,16 @@ export default function Profile() {
                                   <div class="order-total">
                                     Rp.
                                     {Number(transaction.total).toLocaleString()}
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <div class="order-total">
+                                    <Link
+                                      to={`/paymentDetail/${transaction.id}`}
+                                      className="btn-cart"
+                                    >
+                                      Detail Transaksi
+                                    </Link>
                                   </div>
                                 </div>
                               </div>
@@ -447,6 +464,15 @@ export default function Profile() {
                                         Rp.
                                         {Number(
                                           transaction.ongkir
+                                        ).toLocaleString()}
+                                      </span>
+                                    </div>
+                                    <div class="summary-row">
+                                      <span>Biaya Layanan:</span>
+                                      <span>
+                                        Rp.
+                                        {Number(
+                                          transaction.biaya_layanan
                                         ).toLocaleString()}
                                       </span>
                                     </div>
