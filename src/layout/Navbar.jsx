@@ -8,8 +8,16 @@ function Navbar() {
   const [cartList, setCartList] = useState([]);
   const [search, setSearch] = useState("");
 
+
   const [count, setCount] = useState(0);
   const [total, setTotal] = useState(0);
+
+  const handleDelete = (id) => {
+    axios
+      .delete(`/admin/cart/${id}`)
+      .then(() => fetchCartList())
+      .catch((err) => console.error("deleted faielde", err));
+  };
 
   const navigate = useNavigate();
 
@@ -247,7 +255,9 @@ function Navbar() {
                                 {Number(product.price).toLocaleString()}
                               </div>
                             </div>
-                            <button className="cart-item-remove">
+                            <button className="cart-item-remove"
+                              onClick={() => handleDelete(product.id)}
+                            >
                               <i className="bi bi-x"></i>
                             </button>
                           </div>
