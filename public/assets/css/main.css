@@ -6341,7 +6341,7 @@ section,
 }
 
 .order-confirmation .sidebar {
-  background: linear-gradient(145deg, var(--accent-color), color-mix(in srgb, var(--accent-color), #6a11cb 60%));
+  background: linear-gradient(145deg, var(--accent-color), color-mix(in srgb, var(--accent-color), #38a970 60%));
   color: var(--contrast-color);
   border-radius: 16px 0 0 16px;
   /* Success Animation */

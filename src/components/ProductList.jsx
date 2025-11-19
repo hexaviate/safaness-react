@@ -114,7 +114,7 @@ export default function ProductList() {
                             // }
                             src={"http://127.0.0.1:8000/images/" + firstImage}
                             alt={product.name}
-                            className="img-fluid main-img"
+                            className="img-fluid main-img" loading="lazy"
                           />
                           <img
                             // src={
