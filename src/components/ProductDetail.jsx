@@ -203,10 +203,11 @@ export default function ProductDetail() {
                         </div>
 
                         {/* <!-- Product Description --> */}
-                        <div className="product-short-description">
-                          <p>{detail.description}</p>
-                        </div>
-
+                        <div
+                          className="product-short-description"
+                          dangerouslySetInnerHTML={{ __html: detail.description }}
+                        />
+                        
                         {/* <!-- Product Options --> */}
                         <div className="product-options">
                           {/* <!-- Color Options --> */}

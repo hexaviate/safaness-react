@@ -6,7 +6,9 @@ import Navigation from "../layout/Navigation";
 import Footer from "../layout/Footer";
 import axios from "axios";
 import dayjs from "dayjs";
+import './Timeline.css';
 import { useNavigate, useParams } from "react-router-dom";
+import { ssrImportKey } from "vite/module-runner";
 
 export default function PaymentDetail() {
   const [id] = useState(useParams().id);
@@ -28,6 +30,16 @@ export default function PaymentDetail() {
       setTransaksi([response.data.data[0]]);
     });
   };
+
+
+  const trackingData = [
+    { date: '20 Nov 2025', time: '09:00', status: 'Package received at warehouse' },
+    { date: '21 Nov 2025', time: '14:30', status: 'Package shipped from warehouse' },
+    { date: '22 Nov 2025', time: '10:15', status: 'Package arrived at sorting center' },
+    { date: '23 Nov 2025', time: '08:45', status: 'Out for delivery' },
+    { date: '23 Nov 2025', time: '12:00', status: 'Delivered to recipient' },
+  ];
+
 
   return (
     <>
@@ -187,6 +199,29 @@ export default function PaymentDetail() {
                         </div>
                       </div>
 
+                      <div className="details-card">
+                        <div className="card-header">
+                          <h3>
+                            <i className="bi bi-truck"></i> Package Tracking
+                          </h3>
+                        </div>
+
+                        <div className="card-body" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                          <ul className="timeline">
+                            {trackingData.map((item, index) => (
+                              <li key={index} className="timeline-item">
+                                <div className="timeline-dot"></div>
+                                {index !== trackingData.length - 1 && <div className="timeline-line"></div>}
+                                <div className="timeline-content">
+                                  <small>{item.date} {item.time}</small>
+                                  <p>{item.status}</p>
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
 
                       {/* Order items */}
                       <div className="details-card">
@@ -250,7 +285,6 @@ export default function PaymentDetail() {
           </div>
         </section>
       </main>
-
       <Footer />
     </>
   );
