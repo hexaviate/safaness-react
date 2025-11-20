@@ -42,10 +42,10 @@ export default function PaymentDetail() {
             <nav className="breadcrumbs">
               <ol>
                 <li><a href="/">Home</a></li>
-                <li className="current">Detail Transaksi</li>
+                <li className="current">Transaction Detail</li>
               </ol>
             </nav>
-            <h1>Detail Transaksi</h1>
+            <h1>Transaction Detail</h1>
           </div>
         </div>
 
@@ -115,7 +115,7 @@ export default function PaymentDetail() {
                             </p>
                             <p className="shipping-method">
                               <i className="bi bi-clock"></i>
-                              <span>Estimated: {courier.etd} days</span>
+                              <span>Estimated: {courier.etd} </span>
                             </p>
                           </div>
                         ) : (
@@ -231,12 +231,12 @@ export default function PaymentDetail() {
                           <div className="col-md-6">
                             <a href="/" className="btn btn-back">
                               <i className="bi bi-arrow-left"></i>
-                              Kembali ke Beranda
+                              Back to Home
                             </a>
                           </div>
                           <div className="col-md-6">
                             <a href="/history" className="btn btn-account">
-                              <span>Lihat Riwayat Belanja</span>
+                              <span>View Order History</span>
                               <i className="bi bi-arrow-right"></i>
                             </a>
                           </div>

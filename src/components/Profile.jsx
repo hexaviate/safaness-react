@@ -341,7 +341,7 @@ export default function Profile() {
                                       to={`/paymentDetail/${transaction.id}`}
                                       className="btn-cart"
                                     >
-                                      Detail Transaksi
+                                      Transaction Detail
                                     </Link>
                                   </div>
                                 </div>

@@ -68,7 +68,7 @@ export default function ProductFiltered() {
                 <div className="col-12">
                   <div
                     className="product-filters isotope-filters mb-5 d-flex justify-content-center"
-                    //   data-aos="fade-up"
+                  //   data-aos="fade-up"
                   >
                     <ul className="d-flex flex-wrap gap-2 list-unstyled">
                       <li className="filter-active" data-filter="*">
@@ -121,15 +121,19 @@ export default function ProductFiltered() {
                             //   "http://127.0.0.1:8000/images/" + secondImage
                             // }
                             src={
-                              "http://192.168.0.100:8000/images/" + secondImage
+                              "http://127.0.0.1:8000/images/" + secondImage
                             }
                             alt={`${product.name} Hover`}
                             className="img-fluid hover-img"
                           />
                           <div className="product-overlay">
-                            <a href="cart.html" className="btn-cart">
+
+                            <Link
+                              to={`/detail/${product.id}`}
+                              className="btn-cart"
+                            >
                               <i className="bi bi-cart-plus"></i> Add to Cart
-                            </a>
+                            </Link>
                             <div className="product-actions">
                               <a href="#" className="action-btn">
                                 <i className="bi bi-heart"></i>
@@ -159,11 +163,11 @@ export default function ProductFiltered() {
                     </div>
                   );
                 })}
-                {}
+                { }
 
                 {/* <!-- End Product Item --> */}
 
-                
+
               </div>
 
               <div className="text-center mt-5" data-aos="fade-up">
