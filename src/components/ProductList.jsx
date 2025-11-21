@@ -27,7 +27,14 @@ import { Link, useLocation } from "react-router-dom";
 
 export default function ProductList() {
   const [productList, setProductList] = useState([]);
-  const [image, setImage] = useState([]);
+  const [IMAGE, SET_IMAGE] = useState([]);
+
+
+  const location = useLocation();
+  console.log(location);  //biar lokasi tidak mengganggurn
+
+
+
 
   useEffect(() => {
     fetchProductList();
@@ -62,7 +69,7 @@ export default function ProductList() {
                 <div className="col-12">
                   <div
                     className="product-filters isotope-filters mb-5 d-flex justify-content-center"
-                    //   data-aos="fade-up"
+                  //   data-aos="fade-up"
                   >
                     <ul className="d-flex flex-wrap gap-2 list-unstyled">
                       <li className="filter-active" data-filter="*">
@@ -85,6 +92,8 @@ export default function ProductList() {
                 {productList.map((product, key) => {
                   const firstImage = product.image?.[0]?.image;
                   const secondImage = product.image?.[1]?.image;
+                  console.log(firstImage);
+
 
                   return (
                     <div
@@ -133,9 +142,13 @@ export default function ProductList() {
                               <a href="#" className="action-btn">
                                 <i className="bi bi-heart"></i>
                               </a>
-                              <a href="#" className="action-btn">
+                              <Link
+                                to={`/detail/${product.id}`}
+                                className="action-btn"
+                              >
                                 <i className="bi bi-eye"></i>
-                              </a>
+                              </Link>
+
                               <a href="#" className="action-btn">
                                 <i className="bi bi-arrow-left-right"></i>
                               </a>
@@ -158,7 +171,7 @@ export default function ProductList() {
                     </div>
                   );
                 })}
-                {}
+                { }
 
                 {/* <!-- End Product Item --> */}
               </div>

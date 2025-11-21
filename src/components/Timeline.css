@@ -1,0 +1,38 @@
+.timeline {
+  list-style: none;
+  padding-left: 20px;
+  position: relative;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 20px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  background-color: #78C03B;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 5px; /* sesuaikan dengan titik */
+  top: 12px;
+  width: 2px;
+  height: calc(100% - 12px);
+  background-color: #78C03B;
+}
+
+.timeline-content {
+  background: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}

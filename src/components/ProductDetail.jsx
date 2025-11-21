@@ -14,6 +14,8 @@ export default function ProductDetail() {
   const [qty, setQty] = useState("1");
   const navigate = useNavigate();
 
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   useEffect(() => {
     fetchProductDetail();
   }, []);
@@ -58,41 +60,26 @@ export default function ProductDetail() {
                     {/* <!-- Product Images Column --> */}
                     <div
                       className="col-lg-6 mb-5 mb-lg-0"
-                      // data-aos="fade-right"
-                      // data-aos-delay="200"
+                    // data-aos="fade-right"
+                    // data-aos-delay="200"
                     >
                       <div className="product-gallery">
                         {/* <!-- Vertical Thumbnails --> */}
                         <div className="thumbnails-vertical">
                           <div className="thumbnails-container">
-                            {detail.image.map((data) => {
+                            {detail.image.map((data, index) => {
                               return (
                                 <div
-                                  className="thumbnail-item"
-                                  data-image={
-                                    // "http://192.168.1.100:8000/images/" +
-                                    // data.image
-                                    "http://127.0.0.1:8000/images/" + data.image
-                                  }
+                                  key={index}
+                                  // Tambahkan class 'active' jika thumbnail ini sedang dipilih
+                                  className={`thumbnail-item ${currentImageIndex === index ? 'active' : ''}`}
+                                  // Tambahkan onClick untuk mengubah gambar utama
+                                  onClick={() => setCurrentImageIndex(index)}
+                                  style={{ cursor: 'pointer' }} // Tambahkan kursor pointer
                                 >
                                   <img
-                                    //   src={
-                                    // "http://192.168.0.100:8000/images/" +
-                                    //     data.image
-                                    //   }
-                                    // src={
-                                    //   "http://192.168.110.24:8000/images/" +
-                                    //   detail.image[0].image
-                                    // }
-                                    // src={
-                                    //   "http://192.168.1.32:8000/images/" +
-                                    //   detail.image[0].image
-                                    // }
-                                    src={
-                                      "http://127.0.0.1:8000/images/" +
-                                      detail.image[0].image
-                                    }
-                                    alt="Product Thumbnail"
+                                    src={"http://127.0.0.1:8000/images/" + data.image}
+                                    alt={`Product Thumbnail ${index + 1}`}
                                     className="img-fluid"
                                   />
                                 </div>
@@ -105,40 +92,24 @@ export default function ProductDetail() {
                         <div className="main-image-wrapper">
                           <div className="image-zoom-container">
                             <a
-                              // href={
-                              //   "http://192.168.0.100:8000/images/" +
-                              //   detail.image[0].image
-                              // }
                               href={
                                 "http://127.0.0.1:8000/images/" +
-                                detail.image[0].image
+                                detail.image[currentImageIndex].image // Dinamis berdasarkan index
                               }
                               className="glightbox"
                               data-gallery="product-gallery"
                             >
                               <img
-                                // src={
-                                //   "http://192.168.0.100:8000/images/" +
-                                //   detail.image[0].image
-                                // }
-                                // src={
-                                //   "http://192.168.110.24:8000/images/" +
-                                //   detail.image[0].image
-                                // }
-                                // src={
-                                //   "http://192.168.1.32:8000/images/" +
-                                //   detail.image[0].image
-                                // }
                                 src={
                                   "http://127.0.0.1:8000/images/" +
-                                  detail.image[0].image
+                                  detail.image[currentImageIndex].image // Dinamis berdasarkan index
                                 }
                                 alt="Product Image"
                                 className="img-fluid main-image drift-zoom"
                                 id="main-product-image"
                                 data-zoom={
-                                  "http://192.168.0.100:8000/images/" +
-                                  detail.image[0].image
+                                  "http://127.0.0.1:8000/images/" +
+                                  detail.image[currentImageIndex].image // Dinamis juga untuk zoom
                                 }
                               />
                               <div className="zoom-overlay">
@@ -147,10 +118,28 @@ export default function ProductDetail() {
                             </a>
                           </div>
                           <div className="image-nav">
-                            <button className="image-nav-btn prev-image">
+                            <button
+                              className="image-nav-btn prev-image"
+                              onClick={() => {
+                                // Jika di gambar pertama, pindah ke gambar terakhir
+                                // Jika tidak, kurangi index
+                                setCurrentImageIndex(prevIndex =>
+                                  prevIndex === 0 ? detail.image.length - 1 : prevIndex - 1
+                                );
+                              }}
+                            >
                               <i className="bi bi-chevron-left"></i>
                             </button>
-                            <button className="image-nav-btn next-image">
+                            <button
+                              className="image-nav-btn next-image"
+                              onClick={() => {
+                                // Jika di gambar terakhir, pindah ke gambar pertama
+                                // Jika tidak, tambah index
+                                setCurrentImageIndex(prevIndex =>
+                                  prevIndex === detail.image.length - 1 ? 0 : prevIndex + 1
+                                );
+                              }}
+                            >
                               <i className="bi bi-chevron-right"></i>
                             </button>
                           </div>
@@ -214,10 +203,11 @@ export default function ProductDetail() {
                         </div>
 
                         {/* <!-- Product Description --> */}
-                        <div className="product-short-description">
-                          <p>{detail.description}</p>
-                        </div>
-
+                        <div
+                          className="product-short-description"
+                          dangerouslySetInnerHTML={{ __html: detail.description }}
+                        />
+                        
                         {/* <!-- Product Options --> */}
                         <div className="product-options">
                           {/* <!-- Color Options --> */}

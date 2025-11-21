@@ -20,38 +20,53 @@
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
-:root { 
-  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
-  --default-color: #212529; /* Default color used for the majority of the text content across the entire website */
-  --heading-color: #3e0925; /* Color for headings, subheadings and title throughout the website */
-  --accent-color: #8c0d4f; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
-  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
-  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
-}
-
-/* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
 :root {
-  --nav-color: #212529;  /* The default color of the main navmenu links */
-  --nav-hover-color: #8c0d4f; /* Applied to main navmenu links when they are hovered over or active */
-  --nav-mobile-background-color: #ffffff; /* Used as the background color for mobile navigation menu */
-  --nav-dropdown-background-color: #ffffff; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
-  --nav-dropdown-color: #212529; /* Used for navigation links of the dropdown items in the navigation menu. */
-  --nav-dropdown-hover-color: #8c0d4f; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+  /* Warna Utama & Brand */
+  --primary-color: #78c03b; /* green fresh - warna utama brand */
+  --accent-color: #78c03b; /* green fresh - warna utama */
+  --accent-promo: #c03b78; /* magenta/pink vibrant - untuk promo, banner, tombol penting */
+  --accent-light: #ff75b0; /* pink light untuk variasi accent */
+  
+  /* Warna Hijau Pendamping */
+  --secondary-green: #5ea62e; /* green deep */
+  --highlight-green: #98d86a; /* green soft / highlight */
+  --pastel-green: #d2e8c4; /* hijau pastel natural */
+  --earthy-green: #4f6f34; /* hijau daun tua earthy */
+  
+  /* Warna Dasar & Netral */
+  --background-color: #f7f7f7; /* putih soft, cocok buat background */
+  --surface-color: #ffffff; /* putih bersih */
+  --default-color: #2f2f2f; /* hitam lembut buat teks biar readable */
+  --heading-color: #2f2f2f; /* hitam lembut untuk heading */
+  --contrast-color: #ffffff; /* putih bersih */
+  --light-gray: #e5e5e5; /* abu muda untuk border & card */
+  
+  /* Warna Natural Pendukung */
+  --beige: #bfa98a; /* coklat beige lembut (buat tone natural) */
 }
 
-/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
+/* Perbarui warna navigasi */
+:root {
+  --nav-color: #2f2f2f;
+  --nav-hover-color: #78c03b;
+  --nav-mobile-background-color: #ffffff;
+  --nav-dropdown-background-color: #ffffff;
+  --nav-dropdown-color: #2f2f2f;
+  --nav-dropdown-hover-color: #78c03b;
+}
 
+/* Perbarui preset warna */
 .light-background {
-  --background-color: #f8f4f6;
+  --background-color: #f7f7f7;
   --surface-color: #ffffff;
 }
 
 .dark-background {
-  --background-color: #232931;
+  --background-color: #2f2f2f;
   --default-color: #ffffff;
   --heading-color: #ffffff;
-  --accent-color: #397deb;
-  --surface-color: #38424f;
+  --accent-color: #78c03b;
+  --surface-color: #4f6f34;
   --contrast-color: #ffffff;
 }
 
@@ -6326,7 +6341,7 @@ section,
 }
 
 .order-confirmation .sidebar {
-  background: linear-gradient(145deg, var(--accent-color), color-mix(in srgb, var(--accent-color), #6a11cb 60%));
+  background: linear-gradient(145deg, var(--accent-color), color-mix(in srgb, var(--accent-color), #38a970 60%));
   color: var(--contrast-color);
   border-radius: 16px 0 0 16px;
   /* Success Animation */

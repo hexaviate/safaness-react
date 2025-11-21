@@ -335,16 +335,18 @@ export default function Profile() {
                                     {Number(transaction.total).toLocaleString()}
                                   </div>
                                 </div>
-                                <div class="col-md-2">
-                                  <div class="order-total">
+                                <div className="col-md-2">
+                                  <div className="order-total">
                                     <Link
                                       to={`/paymentDetail/${transaction.id}`}
-                                      className="btn-cart"
+                                      className="btn btn-success" // pakai class bootstrap buat tombol
+                                      style={{ textDecoration: 'none', color: 'white' }} // hilangkan garis bawah dan pastikan teks putih
                                     >
-                                      Detail Transaksi
+                                      Transaction Detail
                                     </Link>
                                   </div>
                                 </div>
+
                               </div>
                               <div class="order-products">
                                 <div class="product-thumbnails">
