@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function PaymentDetail() {
   const [id] = useState(useParams().id);
   const [transaksi, setTransaksi] = useState([]);
+  const [proof, setProof] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,6 +26,23 @@ export default function PaymentDetail() {
       console.log(response.data.data);
       setTransaksi([response.data.data[0]]);
     });
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("proof", proof);
+
+    try {
+      const response = await axios.post(`/uploadPayment/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("Upload Success:", response.data);
+    } catch (error) {
+      console.log("Upload Error:", error);
+    }
   };
 
   return (
@@ -72,6 +90,13 @@ export default function PaymentDetail() {
                 </div>
               );
             })}
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setProof(e.target.files[0])}
+            />
+            <button onClick={handleSubmit}>Upload Foto</button>
           </div>
         );
       })}
