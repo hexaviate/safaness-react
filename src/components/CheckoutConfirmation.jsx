@@ -1,10 +1,12 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import Navbar from "../layout/Navbar";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function CheckoutConfirmation() {
+  const [id, setId] = useState();
   const [infolist, setInfoList] = useState([]);
   const [cartList, setCartList] = useState([]);
   const [courier, setCourier] = useState("");
@@ -21,7 +23,7 @@ export default function CheckoutConfirmation() {
   const bankData = {
     bank_name: "Bank BCA",
     account_number: "1234567890",
-    account_holder: "PT TOKO ONLINE"
+    account_holder: "PT TOKO ONLINE",
   };
 
   // QR Code Data
@@ -60,15 +62,28 @@ export default function CheckoutConfirmation() {
 
   const fetchAddresses = () => {
     // API untuk fetch alamat user
-    axios.get("/user/addresses").then(function (response) {
-      setAddresses(response.data.data);
-    }).catch(err => {
-      // Dummy data jika API belum ada
-      setAddresses([
-        { id: 1, label: "Rumah", address: "Jl. Contoh No. 123, Jakarta", zipcode: "12345" },
-        { id: 2, label: "Kantor", address: "Jl. Bisnis No. 456, Jakarta", zipcode: "54321" }
-      ]);
-    });
+    axios
+      .get("/adress")
+      .then(function (response) {
+        setAddresses(response.data.data);
+      })
+      .catch((err) => {
+        // Dummy data jika API belum ada
+        setAddresses([
+          {
+            id: 1,
+            label: "Rumah",
+            address: "Jl. Contoh No. 123, Jakarta",
+            zipcode: "12345",
+          },
+          {
+            id: 2,
+            label: "Kantor",
+            address: "Jl. Bisnis No. 456, Jakarta",
+            zipcode: "54321",
+          },
+        ]);
+      });
   };
 
   const handleAddressChange = (e) => {
@@ -81,6 +96,7 @@ export default function CheckoutConfirmation() {
 
   const handlePaymentProofUpload = (e) => {
     const file = e.target.files[0];
+
     if (file) {
       setPaymentProof(file);
       setPaymentProofPreview(URL.createObjectURL(file));
@@ -94,20 +110,23 @@ export default function CheckoutConfirmation() {
     }
 
     const formData = new FormData();
-    formData.append("payment_proof", paymentProof);
-    formData.append("transaction_id", "TRANSACTION_ID"); // Ganti dengan transaction ID yang sesuai
+    formData.append("proof", paymentProof);
+    // formData.append("transaction_id", "TRANSACTION_ID"); // Ganti dengan transaction ID yang sesuai
 
-    axios.post("/admin/upload-payment-proof", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(function (res) {
-      setIsPaymentProofUploaded(true);
-      alert("Payment proof uploaded successfully!");
-      navigate("/profile");
-    }).catch(err => {
-      alert("Failed to upload payment proof");
-    });
+    axios
+      .post(`/uploadPayment/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(function (res) {
+        setIsPaymentProofUploaded(true);
+        alert("Payment proof uploaded successfully!");
+        navigate("/profile");
+      })
+      .catch((err) => {
+        alert("Failed to upload payment proof");
+      });
   };
 
   const handleNextStep = (nextStep) => {
@@ -128,19 +147,21 @@ export default function CheckoutConfirmation() {
     axios
       .post("/admin/transaction", {
         courier: courier,
-        address: selectedAddress,
-        payment_method: paymentMethod
+        adress_id: selectedAddress,
+        payment_method: paymentMethod,
       })
       .then(function (res) {
         // Langsung ke step upload bukti pembayaran
+        console.log(res.data.transaction.id);
+        setId(res.data.transaction.id);
         setCurrentStep(5);
       });
   };
 
   const downloadQRCode = () => {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = qrCodeUrl;
-    link.download = 'qris-payment.png';
+    link.download = "qris-payment.png";
     link.click();
   };
 
@@ -155,7 +176,9 @@ export default function CheckoutConfirmation() {
           <div className="container">
             <nav className="breadcrumbs">
               <ol>
-                <li><a href="index.html">Home</a></li>
+                <li>
+                  <a href="index.html">Home</a>
+                </li>
                 <li className="current">Checkout</li>
               </ol>
             </nav>
@@ -169,27 +192,27 @@ export default function CheckoutConfirmation() {
               <div className="col-lg-8">
                 {/* Checkout Steps */}
                 <div className="checkout-steps mb-4">
-                  <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>
+                  <div className={`step ${currentStep >= 1 ? "active" : ""}`}>
                     <div className="step-number">1</div>
                     <div className="step-title">Information</div>
                   </div>
                   <div className="step-connector"></div>
-                  <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>
+                  <div className={`step ${currentStep >= 2 ? "active" : ""}`}>
                     <div className="step-number">2</div>
                     <div className="step-title">Shipping</div>
                   </div>
                   <div className="step-connector"></div>
-                  <div className={`step ${currentStep >= 3 ? 'active' : ''}`}>
+                  <div className={`step ${currentStep >= 3 ? "active" : ""}`}>
                     <div className="step-number">3</div>
                     <div className="step-title">Payment</div>
                   </div>
                   <div className="step-connector"></div>
-                  <div className={`step ${currentStep >= 4 ? 'active' : ''}`}>
+                  <div className={`step ${currentStep >= 4 ? "active" : ""}`}>
                     <div className="step-number">4</div>
                     <div className="step-title">Review</div>
                   </div>
                   <div className="step-connector"></div>
-                  <div className={`step ${currentStep >= 5 ? 'active' : ''}`}>
+                  <div className={`step ${currentStep >= 5 ? "active" : ""}`}>
                     <div className="step-number">5</div>
                     <div className="step-title">Upload Proof</div>
                   </div>
@@ -207,40 +230,40 @@ export default function CheckoutConfirmation() {
                         <div key={key}>
                           <div className="form-group">
                             <label htmlFor="name">Name</label>
-                            <input 
-                              type="text" 
-                              className="form-control" 
-                              id="name" 
-                              value={info.name || ""} 
-                              readOnly 
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="name"
+                              value={info.name || ""}
+                              readOnly
                             />
                           </div>
                           <div className="form-group mt-3">
                             <label htmlFor="email">Email Address</label>
-                            <input 
-                              type="email" 
-                              className="form-control" 
-                              id="email" 
-                              value={info.email || ""} 
-                              readOnly 
+                            <input
+                              type="email"
+                              className="form-control"
+                              id="email"
+                              value={info.email || ""}
+                              readOnly
                             />
                           </div>
                           <div className="form-group mt-3">
                             <label htmlFor="phone">Phone Number</label>
-                            <input 
-                              type="tel" 
-                              className="form-control" 
-                              id="phone" 
-                              value={info.phone || ""} 
-                              readOnly 
+                            <input
+                              type="tel"
+                              className="form-control"
+                              id="phone"
+                              value={info.phone || ""}
+                              readOnly
                             />
                           </div>
                         </div>
                       ))}
                       <div className="text-end mt-4">
-                        <button 
-                          type="button" 
-                          className="btn btn-success" 
+                        <button
+                          type="button"
+                          className="btn btn-success"
                           onClick={() => handleNextStep(2)}
                         >
                           Continue to Shipping
@@ -260,17 +283,17 @@ export default function CheckoutConfirmation() {
                     <form className="checkout-form-element">
                       <div className="form-group">
                         <label htmlFor="address-select">Select Address</label>
-                        <select 
-                          className="form-select" 
-                          id="address-select" 
-                          value={selectedAddress} 
+                        <select
+                          className="form-select"
+                          id="address-select"
+                          value={selectedAddress}
                           onChange={handleAddressChange}
                           required
                         >
                           <option value="">-- Pilih Alamat --</option>
                           {addresses.map((addr) => (
                             <option key={addr.id} value={addr.id}>
-                              {addr.label} - {addr.address}
+                              {addr.name} - {addr.address}
                             </option>
                           ))}
                         </select>
@@ -279,10 +302,21 @@ export default function CheckoutConfirmation() {
                       {selectedAddress && (
                         <div className="mt-3 p-3 border rounded">
                           <h5>Selected Address:</h5>
-                          {addresses.find(a => a.id == selectedAddress) && (
+                          {addresses.find((a) => a.id == selectedAddress) && (
                             <>
-                              <p className="mb-1">{addresses.find(a => a.id == selectedAddress).address}</p>
-                              <p className="mb-0">Zipcode: {addresses.find(a => a.id == selectedAddress).zipcode}</p>
+                              <p className="mb-1">
+                                {
+                                  addresses.find((a) => a.id == selectedAddress)
+                                    .address
+                                }
+                              </p>
+                              <p className="mb-0">
+                                Zipcode:{" "}
+                                {
+                                  addresses.find((a) => a.id == selectedAddress)
+                                    .zipcode
+                                }
+                              </p>
                               <p className="mb-0">Indonesia</p>
                             </>
                           )}
@@ -291,10 +325,10 @@ export default function CheckoutConfirmation() {
 
                       <div className="form-group mt-3">
                         <label htmlFor="courier-select">Select Courier</label>
-                        <select 
-                          className="form-select" 
-                          id="courier-select" 
-                          value={courier} 
+                        <select
+                          className="form-select"
+                          id="courier-select"
+                          value={courier}
                           onChange={(e) => setCourier(e.target.value)}
                           required
                         >
@@ -306,16 +340,16 @@ export default function CheckoutConfirmation() {
                       </div>
 
                       <div className="d-flex justify-content-between mt-4">
-                        <button 
-                          type="button" 
-                          className="btn btn-outline-secondary" 
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary"
                           onClick={() => handlePrevStep(1)}
                         >
                           Back to Information
                         </button>
-                        <button 
-                          type="button" 
-                          className="btn btn-success" 
+                        <button
+                          type="button"
+                          className="btn btn-success"
                           onClick={() => handleNextStep(3)}
                           disabled={!selectedAddress || !courier}
                         >
@@ -336,71 +370,104 @@ export default function CheckoutConfirmation() {
                     <form className="checkout-form-element">
                       <div className="payment-methods">
                         {/* Bank Transfer */}
-                        <div className={`payment-method ${paymentMethod === 'bank_transfer' ? 'active' : ''}`}>
+                        <div
+                          className={`payment-method ${
+                            paymentMethod === "bank_transfer" ? "active" : ""
+                          }`}
+                        >
                           <div className="payment-method-header">
                             <div className="form-check">
-                              <input 
-                                className="form-check-input" 
-                                type="radio" 
-                                name="payment-method" 
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="payment-method"
                                 id="bank-transfer"
-                                checked={paymentMethod === 'bank_transfer'}
-                                onChange={() => handlePaymentMethodChange('bank_transfer')}
+                                checked={paymentMethod === "bank_transfer"}
+                                onChange={() =>
+                                  handlePaymentMethodChange("bank_transfer")
+                                }
                               />
-                              <label className="form-check-label" htmlFor="bank-transfer">
+                              <label
+                                className="form-check-label"
+                                htmlFor="bank-transfer"
+                              >
                                 Bank Transfer
                               </label>
                             </div>
                           </div>
-                          {paymentMethod === 'bank_transfer' && (
+                          {paymentMethod === "bank_transfer" && (
                             <div className="payment-method-body mt-3 p-3 border rounded">
                               <h5>Transfer Details:</h5>
-                              <p className="mb-1"><strong>Bank:</strong> {bankData.bank_name}</p>
-                              <p className="mb-1"><strong>Account Number:</strong> {bankData.account_number}</p>
-                              <p className="mb-0"><strong>Account Holder:</strong> {bankData.account_holder}</p>
+                              <p className="mb-1">
+                                <strong>Bank:</strong> {bankData.bank_name}
+                              </p>
+                              <p className="mb-1">
+                                <strong>Account Number:</strong>{" "}
+                                {bankData.account_number}
+                              </p>
+                              <p className="mb-0">
+                                <strong>Account Holder:</strong>{" "}
+                                {bankData.account_holder}
+                              </p>
                               <div className="alert alert-info mt-3 mb-0">
-                                <small>Please transfer the exact amount and upload the payment proof in the next step.</small>
+                                <small>
+                                  Please transfer the exact amount and upload
+                                  the payment proof in the next step.
+                                </small>
                               </div>
                             </div>
                           )}
                         </div>
 
                         {/* QRIS */}
-                        <div className={`payment-method mt-3 ${paymentMethod === 'qris' ? 'active' : ''}`}>
+                        <div
+                          className={`payment-method mt-3 ${
+                            paymentMethod === "qris" ? "active" : ""
+                          }`}
+                        >
                           <div className="payment-method-header">
                             <div className="form-check">
-                              <input 
-                                className="form-check-input" 
-                                type="radio" 
-                                name="payment-method" 
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="payment-method"
                                 id="qris"
-                                checked={paymentMethod === 'qris'}
-                                onChange={() => handlePaymentMethodChange('qris')}
+                                checked={paymentMethod === "qris"}
+                                onChange={() =>
+                                  handlePaymentMethodChange("qris")
+                                }
                               />
-                              <label className="form-check-label" htmlFor="qris">
+                              <label
+                                className="form-check-label"
+                                htmlFor="qris"
+                              >
                                 QRIS
                               </label>
                             </div>
                           </div>
-                          {paymentMethod === 'qris' && (
+                          {paymentMethod === "qris" && (
                             <div className="payment-method-body mt-3 p-3 border rounded text-center">
                               <h5>Scan QR Code:</h5>
-                              <img 
-                                src={qrCodeUrl} 
-                                alt="QRIS Code" 
+                              <img
+                                src={qrCodeUrl}
+                                alt="QRIS Code"
                                 className="img-fluid mb-3"
-                                style={{ maxWidth: '300px' }}
+                                style={{ maxWidth: "300px" }}
                               />
                               <br />
-                              <button 
-                                type="button" 
+                              <button
+                                type="button"
                                 className="btn btn-outline-primary btn-sm"
                                 onClick={downloadQRCode}
                               >
-                                <i className="bi bi-download me-2"></i>Download QR Code
+                                <i className="bi bi-download me-2"></i>Download
+                                QR Code
                               </button>
                               <div className="alert alert-info mt-3 mb-0">
-                                <small>Scan this QR code with your e-wallet app and upload the payment proof in the next step.</small>
+                                <small>
+                                  Scan this QR code with your e-wallet app and
+                                  upload the payment proof in the next step.
+                                </small>
                               </div>
                             </div>
                           )}
@@ -408,16 +475,16 @@ export default function CheckoutConfirmation() {
                       </div>
 
                       <div className="d-flex justify-content-between mt-4">
-                        <button 
-                          type="button" 
-                          className="btn btn-outline-secondary" 
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary"
                           onClick={() => handlePrevStep(2)}
                         >
                           Back to Shipping
                         </button>
-                        <button 
-                          type="button" 
-                          className="btn btn-success" 
+                        <button
+                          type="button"
+                          className="btn btn-success"
                           onClick={() => handleNextStep(4)}
                         >
                           Review Order
@@ -432,7 +499,9 @@ export default function CheckoutConfirmation() {
                   <div className="checkout-form active">
                     <div className="form-header">
                       <h3>Review Your Order</h3>
-                      <p>Please review your information before placing your order</p>
+                      <p>
+                        Please review your information before placing your order
+                      </p>
                     </div>
                     <form className="checkout-form-element">
                       {infolist.map((info, key) => (
@@ -451,46 +520,74 @@ export default function CheckoutConfirmation() {
                           <div className="review-section mt-3">
                             <div className="review-section-header">
                               <h4>Shipping Address</h4>
-                              <button 
-                                type="button" 
-                                className="btn-edit" 
+                              <button
+                                type="button"
+                                className="btn-edit"
                                 onClick={() => handlePrevStep(2)}
                               >
                                 Edit
                               </button>
                             </div>
                             <div className="review-section-content">
-                              {selectedAddress && addresses.find(a => a.id == selectedAddress) && (
-                                <>
-                                  <p>{addresses.find(a => a.id == selectedAddress).address}</p>
-                                  <p>{addresses.find(a => a.id == selectedAddress).zipcode}</p>
-                                  <p>Indonesia</p>
-                                  <p><strong>Courier:</strong> {courier.toUpperCase()}</p>
-                                </>
-                              )}
+                              {selectedAddress &&
+                                addresses.find(
+                                  (a) => a.id == selectedAddress
+                                ) && (
+                                  <>
+                                    <p>
+                                      {
+                                        addresses.find(
+                                          (a) => a.id == selectedAddress
+                                        ).address
+                                      }
+                                    </p>
+                                    <p>
+                                      {
+                                        addresses.find(
+                                          (a) => a.id == selectedAddress
+                                        ).zipcode
+                                      }
+                                    </p>
+                                    <p>Indonesia</p>
+                                    <p>
+                                      <strong>Courier:</strong>{" "}
+                                      {courier.toUpperCase()}
+                                    </p>
+                                  </>
+                                )}
                             </div>
                           </div>
 
                           <div className="review-section mt-3">
                             <div className="review-section-header">
                               <h4>Payment Method</h4>
-                              <button 
-                                type="button" 
-                                className="btn-edit" 
+                              <button
+                                type="button"
+                                className="btn-edit"
                                 onClick={() => handlePrevStep(3)}
                               >
                                 Edit
                               </button>
                             </div>
                             <div className="review-section-content">
-                              {paymentMethod === 'bank_transfer' && (
+                              {paymentMethod === "bank_transfer" && (
                                 <>
-                                  <p><i className="bi bi-bank me-2"></i>Bank Transfer</p>
-                                  <p className="mb-0"><small>{bankData.bank_name} - {bankData.account_number}</small></p>
+                                  <p>
+                                    <i className="bi bi-bank me-2"></i>Bank
+                                    Transfer
+                                  </p>
+                                  <p className="mb-0">
+                                    <small>
+                                      {bankData.bank_name} -{" "}
+                                      {bankData.account_number}
+                                    </small>
+                                  </p>
                                 </>
                               )}
-                              {paymentMethod === 'qris' && (
-                                <p><i className="bi bi-qr-code me-2"></i>QRIS</p>
+                              {paymentMethod === "qris" && (
+                                <p>
+                                  <i className="bi bi-qr-code me-2"></i>QRIS
+                                </p>
                               )}
                             </div>
                           </div>
@@ -498,12 +595,12 @@ export default function CheckoutConfirmation() {
                       ))}
 
                       <div className="form-check mt-4">
-                        <input 
-                          className="form-check-input" 
-                          type="checkbox" 
-                          id="terms" 
-                          name="terms" 
-                          required 
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          id="terms"
+                          name="terms"
+                          required
                         />
                         <label className="form-check-label" htmlFor="terms">
                           I agree to the Terms and Conditions and Privacy Policy
@@ -511,16 +608,16 @@ export default function CheckoutConfirmation() {
                       </div>
 
                       <div className="d-flex justify-content-between mt-4">
-                        <button 
-                          type="button" 
-                          className="btn btn-outline-secondary" 
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary"
                           onClick={() => handlePrevStep(3)}
                         >
                           Back to Payment
                         </button>
-                        <button 
-                          type="button" 
-                          className="btn btn-success" 
+                        <button
+                          type="button"
+                          className="btn btn-success"
                           onClick={handlePlaceOrder}
                         >
                           Place Order
@@ -540,38 +637,43 @@ export default function CheckoutConfirmation() {
                     <form className="checkout-form-element">
                       <div className="alert alert-warning">
                         <i className="bi bi-exclamation-triangle me-2"></i>
-                        Please complete your payment and upload the proof to process your order.
+                        Please complete your payment and upload the proof to
+                        process your order.
                       </div>
 
                       {!isPaymentProofUploaded ? (
                         <>
                           <div className="form-group">
-                            <label htmlFor="payment-proof">Upload Payment Proof</label>
-                            <input 
-                              type="file" 
-                              className="form-control" 
+                            <label htmlFor="payment-proof">
+                              Upload Payment Proof
+                            </label>
+                            <input
+                              type="file"
+                              className="form-control"
                               id="payment-proof"
                               accept="image/*"
                               onChange={handlePaymentProofUpload}
                             />
-                            <small className="text-muted">Accepted formats: JPG, PNG, PDF (Max 5MB)</small>
+                            <small className="text-muted">
+                              Accepted formats: JPG, PNG, PDF (Max 5MB)
+                            </small>
                           </div>
 
                           {paymentProofPreview && (
                             <div className="mt-3 text-center">
-                              <img 
-                                src={paymentProofPreview} 
-                                alt="Payment Proof Preview" 
+                              <img
+                                src={paymentProofPreview}
+                                alt="Payment Proof Preview"
                                 className="img-fluid border rounded"
-                                style={{ maxHeight: '400px' }}
+                                style={{ maxHeight: "400px" }}
                               />
                             </div>
                           )}
 
                           <div className="text-end mt-4">
-                            <button 
-                              type="button" 
-                              className="btn btn-success" 
+                            <button
+                              type="button"
+                              className="btn btn-success"
                               onClick={handleSubmitPaymentProof}
                               disabled={!paymentProof}
                             >
@@ -582,7 +684,8 @@ export default function CheckoutConfirmation() {
                       ) : (
                         <div className="alert alert-success">
                           <i className="bi bi-check-circle me-2"></i>
-                          Payment proof uploaded successfully! Your order is being processed.
+                          Payment proof uploaded successfully! Your order is
+                          being processed.
                         </div>
                       )}
                     </form>
@@ -592,7 +695,10 @@ export default function CheckoutConfirmation() {
 
               {/* Order Summary */}
               <div className="col-lg-4">
-                <div className="order-summary aos-init aos-animate" data-aos-delay="200">
+                <div
+                  className="order-summary aos-init aos-animate"
+                  data-aos-delay="200"
+                >
                   <div className="order-summary-header">
                     <h3>Order Summary</h3>
                   </div>
@@ -624,19 +730,27 @@ export default function CheckoutConfirmation() {
                         <div className="order-totals" key={key}>
                           <div className="order-subtotal d-flex justify-content-between">
                             <span>Subtotal</span>
-                            <span>Rp.{Number(info.subtotal).toLocaleString()}</span>
+                            <span>
+                              Rp.{Number(info.subtotal).toLocaleString()}
+                            </span>
                           </div>
                           <div className="order-shipping d-flex justify-content-between">
                             <span>Ongkir</span>
-                            <span>Rp.{Number(info.ongkir).toLocaleString()}</span>
+                            <span>
+                              Rp.{Number(info.ongkir).toLocaleString()}
+                            </span>
                           </div>
                           <div className="order-shipping d-flex justify-content-between">
                             <span>Biaya Layanan</span>
-                            <span>Rp.{Number(info.biaya_layanan).toLocaleString()}</span>
+                            <span>
+                              Rp.{Number(info.biaya_layanan).toLocaleString()}
+                            </span>
                           </div>
                           <div className="order-total d-flex justify-content-between">
                             <span>Total</span>
-                            <span>Rp.{Number(info.total).toLocaleString()}</span>
+                            <span>
+                              Rp.{Number(info.total).toLocaleString()}
+                            </span>
                           </div>
                         </div>
                       ))}
