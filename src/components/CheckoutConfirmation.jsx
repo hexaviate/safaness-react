@@ -371,9 +371,8 @@ export default function CheckoutConfirmation() {
                       <div className="payment-methods">
                         {/* Bank Transfer */}
                         <div
-                          className={`payment-method ${
-                            paymentMethod === "bank_transfer" ? "active" : ""
-                          }`}
+                          className={`payment-method ${paymentMethod === "bank_transfer" ? "active" : ""
+                            }`}
                         >
                           <div className="payment-method-header">
                             <div className="form-check">
@@ -421,9 +420,8 @@ export default function CheckoutConfirmation() {
 
                         {/* QRIS */}
                         <div
-                          className={`payment-method mt-3 ${
-                            paymentMethod === "qris" ? "active" : ""
-                          }`}
+                          className={`payment-method mt-3 ${paymentMethod === "qris" ? "active" : ""
+                            }`}
                         >
                           <div className="payment-method-header">
                             <div className="form-check">
@@ -635,10 +633,59 @@ export default function CheckoutConfirmation() {
                       <p>Please upload your payment confirmation</p>
                     </div>
                     <form className="checkout-form-element">
+
+                      <div className="review-section mb-3">
+                        <div className="review-section-header">
+                          <h4>Payment Method</h4>
+                        </div>
+                        <div className="review-section-content">
+                          {paymentMethod === "bank_transfer" && (
+                            <div className="p-3 border rounded bg-light">
+                              <p className="mb-2">
+                                <i className="bi bi-bank me-2"></i>
+                                <strong>Bank Transfer</strong>
+                              </p>
+                              <hr />
+                              <p className="mb-1">
+                                <strong>Bank:</strong> {bankData.bank_name}
+                              </p>
+                              <p className="mb-1">
+                                <strong>Account Number:</strong> {bankData.account_number}
+                              </p>
+                              <p className="mb-0">
+                                <strong>Account Holder:</strong> {bankData.account_holder}
+                              </p>
+                            </div>
+                          )}
+                          {paymentMethod === "qris" && (
+                            <div className="p-3 border rounded bg-light text-center">
+                              <p className="mb-2">
+                                <i className="bi bi-qr-code me-2"></i>
+                                <strong>QRIS</strong>
+                              </p>
+                              <hr />
+                              <img
+                                src={qrCodeUrl}
+                                alt="QRIS Code"
+                                className="img-fluid mb-2"
+                                style={{ maxWidth: "200px" }}
+                              />
+                              <br />
+                              <button
+                                type="button"
+                                className="btn btn-outline-primary btn-sm"
+                                onClick={downloadQRCode}
+                              >
+                                <i className="bi bi-download me-2"></i>Download QR Code
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
                       <div className="alert alert-warning">
                         <i className="bi bi-exclamation-triangle me-2"></i>
-                        Please complete your payment and upload the proof to
-                        process your order.
+                        Please complete your payment and upload the proof to process your order.
                       </div>
 
                       {!isPaymentProofUploaded ? (

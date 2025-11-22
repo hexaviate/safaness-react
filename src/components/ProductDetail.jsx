@@ -207,7 +207,7 @@ export default function ProductDetail() {
                           className="product-short-description"
                           dangerouslySetInnerHTML={{ __html: detail.description }}
                         />
-                        
+
                         {/* <!-- Product Options --> */}
                         <div className="product-options">
                           {/* <!-- Color Options --> */}
@@ -340,7 +340,10 @@ export default function ProductDetail() {
                             <div className="accordion-body">
                               <div className="product-description">
                                 <h4>Product Overview</h4>
-                                <p>{detail.description}</p>
+                                <div
+                                  className="product-short-description"
+                                  dangerouslySetInnerHTML={{ __html: detail.description }}
+                                />
                               </div>
                             </div>
                           </div>
