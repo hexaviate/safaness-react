@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../layout/Navbar";
 import Navigation from "../layout/Navigation";
+import Footer from "../layout/Footer";
 import axios from "axios";
 import { ErrorBoundary } from "react-error-boundary";
 import { Link, useLocation } from "react-router-dom";
@@ -178,6 +179,7 @@ export default function ProductFiltered() {
             </div>
           </section>
         </main>
+        <Footer/>
       </ErrorBoundary>
     </>
   );

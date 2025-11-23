@@ -338,13 +338,21 @@ export default function Profile() {
                                 <div className="col-md-2">
                                   <div className="order-total">
                                     <Link
-                                      to={`/paymentDetail/${transaction.id}`}
-                                      className="btn btn-success" // pakai class bootstrap buat tombol
-                                      style={{ textDecoration: 'none', color: 'white' }} // hilangkan garis bawah dan pastikan teks putih
+                                      to={
+                                        transaction.payment_proof
+                                          ? `/paymentDetail/${transaction.id}`
+                                          : `/checkout/${transaction.id}`
+                                      }
+                                      className={
+                                        transaction.proofPayment
+                                          ? "btn btn-success w-100"
+                                          : "btn btn-warning w-100"
+                                      }
                                     >
-                                      Transaction Detail
+                                      {transaction.payment_proof ? 'Transaction Detail' : 'complete payment'}
                                     </Link>
                                   </div>
+
                                 </div>
 
                               </div>
