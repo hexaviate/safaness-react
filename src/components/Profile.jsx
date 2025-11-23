@@ -10,6 +10,30 @@ export default function Profile() {
   const [info, setInfoList] = useState([]);
   const [account, setAccount] = useState([]);
   const navigate = useNavigate();
+  const [addresses, setAddresses] = useState([])
+
+  const [buyer, setBuyer] = useState({
+    name: "",
+    username: "",
+    email: "",
+    phone: "",
+  })
+
+  const handleSubmitUser = (e) => {
+    e.preventDefault()
+
+    axios
+      .put(`admin/buyer/1`, buyer)
+      .then((res) => {
+        console.log("update success", res.data)
+        // contoh kalau mau munculin alert
+        alert("data berhasil diupdate bro 😎")
+      })
+      .catch((err) => {
+        console.log("error update", err)
+        alert("gagal update, cek dulu datanya 😔")
+      })
+  }
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {
@@ -17,6 +41,18 @@ export default function Profile() {
     }
     fetchInfoList();
     fetchAccountDetail();
+    axios.get("/adress").then((res) => {
+      setAddresses(res.data.data)
+    })
+    axios.get("/showBuyer").then((res) => {
+      const data = res.data.data
+      setBuyer({
+        name: data.name,
+        username: data.username ?? "", // kalo ga ada di api aman
+        email: data.email,
+        phone: data.phone,
+      })
+    })
   }, []);
 
   const fetchInfoList = () => {
@@ -110,13 +146,10 @@ export default function Profile() {
                   <div class="profile-avatar">
                     <span>S</span>
                   </div>
-                  {account.map((acc, e) => {
+                  {account.map((acc,) => {
                     return (
                       <div class="profile-info">
                         <h4>{acc.name}</h4>
-                        <div class="profile-bonus">
-                          <i class="bi bi-gift"></i>
-                        </div>
                       </div>
                     );
                   })}
@@ -341,10 +374,10 @@ export default function Profile() {
                                       to={
                                         transaction.payment_proof
                                           ? `/paymentDetail/${transaction.id}`
-                                          : `/checkout/${transaction.id}`
+                                          : `/uploadPayment/${transaction.id}`
                                       }
                                       className={
-                                        transaction.proofPayment
+                                        transaction.payment_proof
                                           ? "btn btn-success w-100"
                                           : "btn btn-warning w-100"
                                       }
@@ -562,28 +595,32 @@ export default function Profile() {
                         <div class="row">
                           <div class="col-md-6 mb-3">
                             <label for="firstName" class="form-label">
-                              First Name
+                              Name
                             </label>
                             <input
                               type="text"
                               class="form-control"
-                              id="firstName"
-                              name="firstName"
-                              value="Lorem"
-                              required=""
+                              id="name"
+                              name="name"
+                              value={buyer.name}
+                              onChange={(e) =>
+                                setBuyer({ ...buyer, name: e.target.value })
+                              }
                             />
                           </div>
                           <div class="col-md-6 mb-3">
                             <label for="lastName" class="form-label">
-                              Last Name
+                              Username
                             </label>
                             <input
                               type="text"
                               class="form-control"
-                              id="lastName"
-                              name="lastName"
-                              value="Ipsum"
-                              required=""
+                              id="username"
+                              name="username"
+                              value={buyer.username}
+                              onChange={(e) =>
+                                setBuyer({ ...buyer, username: e.target.value })
+                              }
                             />
                           </div>
                         </div>
@@ -597,8 +634,10 @@ export default function Profile() {
                               class="form-control"
                               id="email"
                               name="email"
-                              value="lorem@example.com"
-                              required=""
+                              value={buyer.email}
+                              onChange={(e) =>
+                                setBuyer({ ...buyer, email: e.target.value })
+                              }
                             />
                           </div>
                           <div class="col-md-6 mb-3">
@@ -610,60 +649,11 @@ export default function Profile() {
                               class="form-control"
                               id="phone"
                               name="phone"
-                              value="+1 (555) 123-4567"
+                              value={buyer.phone}
+                              onChange={(e) =>
+                                setBuyer({ ...buyer, phone: e.target.value })
+                              }
                             />
-                          </div>
-                        </div>
-                        <div class="mb-3">
-                          <label for="birthdate" class="form-label">
-                            Date of Birth
-                          </label>
-                          <input
-                            type="date"
-                            class="form-control"
-                            id="birthdate"
-                            name="birthdate"
-                            value="1990-01-01"
-                          />
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label d-block">Gender</label>
-                          <div class="form-check form-check-inline">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="gender"
-                              id="genderMale"
-                              value="male"
-                              checked=""
-                            />
-                            <label class="form-check-label" for="genderMale">
-                              Male
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="gender"
-                              id="genderFemale"
-                              value="female"
-                            />
-                            <label class="form-check-label" for="genderFemale">
-                              Female
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="gender"
-                              id="genderOther"
-                              value="other"
-                            />
-                            <label class="form-check-label" for="genderOther">
-                              Other
-                            </label>
                           </div>
                         </div>
                         <div class="loading">Loading</div>
@@ -672,9 +662,10 @@ export default function Profile() {
                           Your information has been updated. Thank you!
                         </div>
                         <div class="text-end">
-                          <button type="submit" class="btn btn-save">
-                            Save Changes
+                          <button type="submit" className="btn btn-save" onClick={handleSubmitUser}>
+                            save changes
                           </button>
+
                         </div>
                       </form>
                     </div>
@@ -689,46 +680,39 @@ export default function Profile() {
                   >
                     <div class="tab-header">
                       <h2>My Addresses</h2>
-                      <button class="btn btn-add-address" type="button">
+                      <Link to="/add-address" class="btn btn-add-address">
                         <i class="bi bi-plus-lg"></i> Add new address
-                      </button>
+                      </Link>
                     </div>
-                    <div class="addresses-list">
-                      <div class="row">
-                        {/* <!-- Address Item 1 --> */}
-                        <div class="col-lg-6 mb-4" data-aos-delay="100">
-                          <div class="address-item">
-                            <div class="address-header">
-                              <h5>Home Address</h5>
-                              <div class="address-actions">
-                                <button class="btn-edit-address" type="button">
-                                  <i class="bi bi-pencil"></i>
-                                </button>
-                                <button
-                                  class="btn-delete-address"
-                                  type="button"
-                                >
-                                  <i class="bi bi-trash"></i>
-                                </button>
+                    <div className="addresses-list">
+                      <div className="row">
+                        {addresses.map((item) => (
+                          <div className="col-lg-6 mb-4" data-aos-delay="100" key={item.id}>
+                            <div className="address-item">
+                              <div className="address-header">
+                                <h5>{item.address_name}</h5>
+                                <div className="address-actions">
+                                  <button className="btn-edit-address" type="button">
+                                    <i className="bi bi-pencil"></i>
+                                  </button>
+                                  <button className="btn-delete-address" type="button">
+                                    <i className="bi bi-trash"></i>
+                                  </button>
+                                </div>
+                              </div>
+                              <div className="address-content">
+                                <p>
+                                  {item.address}
+                                  <br />
+                                  {item.zipcode}
+                                </p>
                               </div>
                             </div>
-                            <div class="address-content">
-                              <p>
-                                123 Main Street
-                                <br />
-                                Apt 4B
-                                <br />
-                                New York, NY 10001
-                                <br />
-                                United States
-                              </p>
-                            </div>
-                            <div class="default-badge">Default</div>
                           </div>
-                        </div>
-                        {/* <!-- End Address Item --> */}
+                        ))}
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>
