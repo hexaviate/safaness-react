@@ -759,6 +759,7 @@ export default function CheckoutConfirmation() {
                               src={"http://127.0.0.1:8000/images/" + cart.image}
                               alt="Product"
                               className="img-fluid"
+                              loading="lazy"
                             />
                           </div>
                           <div className="order-item-details">

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../layout/Navbar";
 import Navigation from "../layout/Navigation";
+import Footer from "../layout/Footer";
 import axios from "axios";
 import { ErrorBoundary } from "react-error-boundary";
 import { Link, useLocation } from "react-router-dom";
@@ -28,6 +29,9 @@ import { Link, useLocation } from "react-router-dom";
 export default function ProductList() {
   const [productList, setProductList] = useState([]);
   const [IMAGE, SET_IMAGE] = useState([]);
+  const [filteredProduct, setFilteredProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [activeFilter, setActiveFilter] = useState(["*"]);
 
 
   const location = useLocation();
@@ -38,13 +42,42 @@ export default function ProductList() {
 
   useEffect(() => {
     fetchProductList();
+    fetchCategories();
   }, []);
 
   const fetchProductList = () => {
     axios.get("/admin/product").then(function (response) {
       setProductList(response.data.data);
+      setFilteredProducts(response.data.data)
       console.log(response.data.data);
     });
+  };
+
+  const fetchCategories = () => {
+    axios.get("/admin/category")
+      .then(function (response) {
+        console.log("Categories dari API:", response.data);
+        setCategories(response.data.data);
+      })
+      .catch(function (error) {
+        console.error("Error fetching categories:", error);
+      });
+  };
+
+  const handleFilter = (category) => {
+    console.log("Filter diklik:", category);
+
+    if (category === "*") {
+      setActiveFilter("*");
+      setFilteredProducts(productList);
+    } else {
+      setActiveFilter(category.id);
+      const filtered = productList.filter(
+        (product) => product.category === category.name  // bandingkan nama kategori
+      );
+      console.log("Hasil filter:", filtered);
+      setFilteredProducts(filtered);
+    }
   };
 
   return (
@@ -72,12 +105,23 @@ export default function ProductList() {
                   //   data-aos="fade-up"
                   >
                     <ul className="d-flex flex-wrap gap-2 list-unstyled">
-                      <li className="filter-active" data-filter="*">
+                      <li
+                        className={activeFilter === "*" ? "filter-active" : ""}
+                        onClick={() => handleFilter("*")}
+                        style={{ cursor: "pointer" }}
+                      >
                         All
                       </li>
-                      <li data-filter=".filter-clothing">Clothing</li>
-                      <li data-filter=".filter-accessories">Accessories</li>
-                      <li data-filter=".filter-electronics">Electronics</li>
+                      {categories.map((category) => (
+                        <li
+                          key={category.id}
+                          className={activeFilter === category.id ? "filter-active" : ""}
+                          onClick={() => handleFilter(category)}  // kirim objek lengkap
+                          style={{ cursor: "pointer" }}
+                        >
+                          {category.name}
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -89,89 +133,92 @@ export default function ProductList() {
                 data-aos-delay="200"
               >
                 {/* <!-- Product Item 1 --> */}
-                {productList.map((product, key) => {
-                  const firstImage = product.image?.[0]?.image;
-                  const secondImage = product.image?.[1]?.image;
-                  console.log(firstImage);
+                {filteredProduct.length > 0 ? (
+                  filteredProduct.map((product, key) => {
+                    const firstImage = product.image?.[0]?.image;
+                    const secondImage = product.image?.[1]?.image;
+                    console.log(firstImage);
+                    return (
+                      <div
+                        className="col-md-6 col-lg-3 product-item isotope-item filter-clothing"
+                        key={key}
+                      >
+                        <div className="product-card">
+                          <div className="product-image">
+                            <img
+                              // src={
+                              //   "http://192.168.110.24:8000/images/" + firstImage
+                              // }
+                              // src={
+                              //   "http://192.168.0.100:8000/images/" + firstImage
+                              // }
+                              // src={
+                              //   "http://192.168.1.32:8000/images/" + firstImage
+                              // }
+                              src={"http://127.0.0.1:8000/images/" + firstImage}
+                              alt={product.name}
+                              className="img-fluid main-img"
+                            />
+                            <img
+                              // src={
+                              //   "http://192.168.1.32:8000/images/" + secondImage
+                              // }
+                              src={"http://127.0.0.1:8000/images/" + secondImage}
+                              // src={
+                              //   "http://192.168.0.100:8000/images/" + secondImage
+                              // }
+                              // src={
+                              //   "http://192.168.110.24:8000/images/" + secondImage
+                              // }
 
-
-                  return (
-                    <div
-                      className="col-md-6 col-lg-3 product-item isotope-item filter-clothing"
-                      key={key}
-                    >
-                      <div className="product-card">
-                        <div className="product-image">
-                          <img
-                            // src={
-                            //   "http://192.168.110.24:8000/images/" + firstImage
-                            // }
-                            // src={
-                            //   "http://192.168.0.100:8000/images/" + firstImage
-                            // }
-                            // src={
-                            //   "http://192.168.1.32:8000/images/" + firstImage
-                            // }
-                            src={"http://127.0.0.1:8000/images/" + firstImage}
-                            alt={product.name}
-                            className="img-fluid main-img"
-                          />
-                          <img
-                            // src={
-                            //   "http://192.168.1.32:8000/images/" + secondImage
-                            // }
-                            src={"http://127.0.0.1:8000/images/" + secondImage}
-                            // src={
-                            //   "http://192.168.0.100:8000/images/" + secondImage
-                            // }
-                            // src={
-                            //   "http://192.168.110.24:8000/images/" + secondImage
-                            // }
-
-                            alt={`${product.name} Hover`}
-                            className="img-fluid hover-img"
-                          />
-                          <div className="product-overlay">
-                            <Link
-                              to={`/detail/${product.id}`}
-                              className="btn-cart"
-                            >
-                              <i className="bi bi-cart-plus"></i> Add to Cart
-                            </Link>
-                            <div className="product-actions">
-                              <a href="#" className="action-btn">
-                                <i className="bi bi-heart"></i>
-                              </a>
+                              alt={`${product.name} Hover`}
+                              className="img-fluid hover-img"
+                            />
+                            <div className="product-overlay">
                               <Link
                                 to={`/detail/${product.id}`}
-                                className="action-btn"
+                                className="btn-cart"
                               >
-                                <i className="bi bi-eye"></i>
+                                <i className="bi bi-cart-plus"></i> Add to Cart
                               </Link>
+                              <div className="product-actions">
+                                <a href="#" className="action-btn">
+                                  <i className="bi bi-heart"></i>
+                                </a>
+                                <Link
+                                  to={`/detail/${product.id}`}
+                                  className="action-btn"
+                                >
+                                  <i className="bi bi-eye"></i>
+                                </Link>
 
-                              <a href="#" className="action-btn">
-                                <i className="bi bi-arrow-left-right"></i>
-                              </a>
+                                <a href="#" className="action-btn">
+                                  <i className="bi bi-arrow-left-right"></i>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="product-info">
+                            <h5 className="product-title">
+                              <Link to={`/detail/${product.id}`}>
+                                {product.name}
+                              </Link>
+                            </h5>
+                            <div className="product-price">
+                              <span className="current-price">
+                                Rp.{Number(product.price).toLocaleString()}
+                              </span>
                             </div>
                           </div>
                         </div>
-                        <div className="product-info">
-                          <h5 className="product-title">
-                            <Link to={`/detail/${product.id}`}>
-                              {product.name}
-                            </Link>
-                          </h5>
-                          <div className="product-price">
-                            <span className="current-price">
-                              Rp.{Number(product.price).toLocaleString()}
-                            </span>
-                          </div>
-                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-                { }
+                    );
+                  })
+                ) : (
+                  <div className="col-12 text-center py-5">
+                    <p>No products found in this category</p>
+                  </div>
+                )}
 
                 {/* <!-- End Product Item --> */}
               </div>
@@ -184,6 +231,7 @@ export default function ProductList() {
             </div>
           </section>
         </main>
+        <Footer />
       </ErrorBoundary>
     </>
   );
