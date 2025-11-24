@@ -41,7 +41,7 @@ export default function PaymentDetail() {
       console.log(response.data.data.data.manifest);
       setStatus([response.data.data.data.delivery_status.status]);
       setSummary([response.data.data.data.summary]);
-      setAwb([response.data.data.data.manifest]);
+      setAwb(response.data.data.data.manifest);
     });
   };
 
