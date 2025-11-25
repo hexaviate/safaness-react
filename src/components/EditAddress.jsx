@@ -29,7 +29,7 @@ export default function EditAddress() {
   };
 
   const fetchAddressDetail = () => {
-    axios.get(`/adress/${id}`).then((response) => {
+    axios.post(`/showAdress/${id}`).then((response) => {
       const data = response.data.data;
       setFormData({
         adress_name: data.adress_name,

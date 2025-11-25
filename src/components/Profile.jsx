@@ -19,6 +19,20 @@ export default function Profile() {
     phone: "",
   })
 
+  const handleDeleteAdress = (addressId) => {
+    if (window.confirm("Are you sure you want to delete this address?")) {
+      axios.delete(`/adress/${addressId}`)
+        .then(() => {
+          alert("Address deleted successfully!");
+          fetchAddresses();
+        })
+        .catch((error) => {
+          console.error("Error deleting address: ", error);
+          alert("Failed To Delete Address");
+        })
+    }
+  };
+
   const handleSubmitUser = (e) => {
     e.preventDefault()
 
@@ -41,19 +55,31 @@ export default function Profile() {
     }
     fetchInfoList();
     fetchAccountDetail();
+    fetchAddresses();
+    fetchBuyerData();
+  }, []);
+
+  const fetchAddresses = () => {
     axios.get("/adress").then((res) => {
-      setAddresses(res.data.data)
-    })
+      setAddresses(res.data.data);
+    }).catch((error) => {
+      console.error("Error fetching addresses:", error);
+    });
+  };
+
+  const fetchBuyerData = () => {
     axios.get("/showBuyer").then((res) => {
-      const data = res.data.data
+      const data = res.data.data;
       setBuyer({
         name: data.name,
-        username: data.username ?? "", // kalo ga ada di api aman
+        username: data.username ?? "",
         email: data.email,
         phone: data.phone,
-      })
-    })
-  }, []);
+      });
+    }).catch((error) => {
+      console.error("Error fetching buyer data:", error);
+    });
+  };
 
   const fetchInfoList = () => {
     axios.get("/transactionInfo").then((response) => {
@@ -690,19 +716,21 @@ export default function Profile() {
                           <div className="col-lg-6 mb-4" data-aos-delay="100" key={item.id}>
                             <div className="address-item">
                               <div className="address-header">
-                                <h5>{item.address_name}</h5>
+                                <h5>{item.adress_name}</h5>
                                 <div className="address-actions">
-                                  <button className="btn-edit-address" type="button">
+
+                                  <Link to={`/edit-address/${item.id}`} className="btn btn-edit-address" type="button">
                                     <i className="bi bi-pencil"></i>
-                                  </button>
-                                  <button className="btn-delete-address" type="button">
+                                  </Link>
+
+                                  <button className="btn-delete-address" type="button" onClick={() => handleDeleteAdress(item.id)}>
                                     <i className="bi bi-trash"></i>
                                   </button>
                                 </div>
                               </div>
                               <div className="address-content">
                                 <p>
-                                  {item.address}
+                                  {item.adress}
                                   <br />
                                   {item.zipcode}
                                 </p>

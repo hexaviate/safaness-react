@@ -16,6 +16,7 @@ import Register from "./components/auth/Register";
 import PaymentDetail from "./components/PaymentDetail";
 import UploadPayment from "./components/UploadPayment";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import EditAddress from "./components/EditAddress";
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
         <Route path="/paymentDetail/:id" element={<PaymentDetail />}></Route>
         <Route path="/uploadPayment/:transactionId" element={<UploadPayment />} />
         <Route path="/add-address" element={<AddAddress />} />
-        <Route path="/edit-address/:id" element={<AddAddress />} />
+        <Route path="/edit-address/:id" element={<EditAddress />} />
 
       </Routes>
     </Router>
