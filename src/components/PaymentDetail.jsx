@@ -14,6 +14,9 @@ export default function PaymentDetail() {
   const [id] = useState(useParams().id);
   const [transaksi, setTransaksi] = useState([]);
   const [proof, setProof] = useState(null);
+  const [awb, setAwb] = useState([]);
+  const [summary, setSummary] = useState([]);
+  const [status, setStatus] = useState("");
   const navigate = useNavigate();
 
   // --- LOGIKA DATA ANDA YANG SUDAH BEKERJA ---
@@ -29,6 +32,16 @@ export default function PaymentDetail() {
     axios.get(`/detailTransactionInfo/${id}`).then((response) => {
       console.log(response.data.data);
       setTransaksi([response.data.data[0]]);
+      fetchAwbList();
+    });
+  };
+
+  const fetchAwbList = () => {
+    axios.get(`/checkWaybill/${id}`).then((response) => {
+      console.log(response.data.data.data.manifest);
+      setStatus([response.data.data.data.delivery_status.status]);
+      setSummary([response.data.data.data.summary]);
+      setAwb(response.data.data.data.manifest);
     });
   };
 
@@ -194,6 +207,10 @@ export default function PaymentDetail() {
                               <i className="bi bi-clock"></i>
                               <span>Estimated: {courier.etd} </span>
                             </p>
+                            <p className="shipping-method">
+                              <i className="bi bi-clock"></i>
+                              <span>Status: {status} </span>
+                            </p>
                           </div>
                         ) : (
                           <div className="delivery-info">
@@ -225,8 +242,8 @@ export default function PaymentDetail() {
                         <h1>Thanks for your order!</h1>
                         <p>
                           We've received your order and will begin processing it
-                          right away. We'll send you updates via email as your
-                          order progresses.
+                          right away. We'll send you updates via Whatsapp as
+                          your order progresses.
                         </p>
                       </div>
 
@@ -238,41 +255,39 @@ export default function PaymentDetail() {
                           </h3>
                           <i className="bi bi-chevron-down toggle-icon"></i>
                         </div>
+                        {summary.map((summary, key) => {
+                          return (
+                            <div className="card-body" key={key}>
+                              <div className="row g-4">
+                                <div className="col-md-6">
+                                  <div className="detail-group">
+                                    <label>Shipper</label>
+                                    <address>
+                                      {summary.shipper_name}
+                                      <br />
+                                      {summary.origin}
+                                      <br />
+                                      Indonesia
+                                    </address>
+                                  </div>
+                                </div>
 
-                        <div className="card-body">
-                          <div className="row g-4">
-                            <div className="col-md-6">
-                              <div className="detail-group">
-                                <label>Ship To</label>
-                                <address>
-                                  Michael Thompson
-                                  <br />
-                                  789 Oakwood Lane
-                                  <br />
-                                  Seattle, WA 98101
-                                  <br />
-                                  United States
-                                </address>
-                              </div>
-                            </div>
-
-                            <div className="col-md-6">
-                              <div className="detail-group">
-                                <label>Contact</label>
-                                <div className="contact-info">
-                                  <p>
-                                    <i className="bi bi-envelope"></i>{" "}
-                                    michael.t@example.com
-                                  </p>
-                                  <p>
-                                    <i className="bi bi-telephone"></i> (206)
-                                    555-1234
-                                  </p>
+                                <div className="col-md-6">
+                                  <div className="detail-group">
+                                    <label>Ship To</label>
+                                    <address>
+                                      {summary.receiver_name}
+                                      <br />
+                                      {summary.destination}
+                                      <br />
+                                      Indonesia
+                                    </address>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          );
+                        })}
                       </div>
 
                       <div className="details-card">
@@ -287,20 +302,20 @@ export default function PaymentDetail() {
                           style={{ maxHeight: "300px", overflowY: "auto" }}
                         >
                           <ul className="timeline">
-                            {trackingData.map((item, index) => (
-                              <li key={index} className="timeline-item">
-                                <div className="timeline-dot"></div>
-                                {index !== trackingData.length - 1 && (
-                                  <div className="timeline-line"></div>
-                                )}
-                                <div className="timeline-content">
-                                  <small>
-                                    {item.date} {item.time}
-                                  </small>
-                                  <p>{item.status}</p>
-                                </div>
-                              </li>
-                            ))}
+                            {awb.map((item, index) => {
+                              return (
+                                <li key={index} className="timeline-item">
+                                  <div className="timeline-dot"></div>
+                                  {index !== awb.length - 1 && (
+                                    <div className="timeline-line"></div>
+                                  )}
+                                  <div className="timeline-content">
+                                    <small>{item.manifest_date}</small>
+                                    <p>{item.manifest_description}</p>
+                                  </div>
+                                </li>
+                              );
+                            })}
                           </ul>
                         </div>
                       </div>
