@@ -44,7 +44,7 @@ const Footer = () => {
 
             <div className="col-lg-2 col-md-6 col-sm-6">
               <div className="footer-widget">
-                <h4>shop</h4>
+                <h4>Shop</h4>
                 <ul className="footer-links">
                   <li>
                     <a href="category.html">New Arrivals</a>
