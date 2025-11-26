@@ -82,6 +82,44 @@ export default function PaymentDetail() {
     }
   };
 
+
+  // Taruh di atas return, sebelum return statement
+  const getOrderStep = (currentStatus) => {
+    const statusLower = currentStatus?.toLowerCase() || '';
+
+    if (statusLower.includes('delivered') || statusLower.includes('received')) {
+      return 4; // Completed
+    } else if (statusLower.includes('shipped') ||
+      statusLower.includes('transit') ||
+      statusLower.includes('delivery')) {
+      return 3; // Shipped
+    } else if (statusLower.includes('process') ||
+      statusLower.includes('manifest') ||
+      statusLower.includes('picked') ||
+      statusLower.includes('on process')) {
+      return 2; // Processing
+    } else {
+      return 1; // Created
+    }
+  };
+
+  // Di dalam map function
+  const currentStep = status && status[0] ? getOrderStep(status[0]) : 1;
+
+  //api complate
+
+  const handleComplete = async () => {
+    try {
+      const res = await axios.post(`/completeTransaction/${id}`);
+      console.log(res.data);
+
+      navigate('/profile');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
   return (
     <>
       <header id="header" className="header position-relative">
@@ -122,8 +160,8 @@ export default function PaymentDetail() {
                           <div className="order-date">
                             {transaksiItem?.created_at
                               ? dayjs(transaksiItem.created_at).format(
-                                  "MMMM D, YYYY"
-                                )
+                                "MMMM D, YYYY"
+                              )
                               : "Unknown Date"}
                           </div>
                         </div>
@@ -131,19 +169,19 @@ export default function PaymentDetail() {
                         {/* Order progress stepper */}
                         <div className="order-progress">
                           <div className="stepper-container">
-                            <div className="stepper-item completed">
+                            <div className={`stepper-item ${currentStep >= 1 ? 'completed' : ''}`}>
                               <div className="stepper-icon">1</div>
                               <div className="stepper-text">Created</div>
                             </div>
-                            <div className="stepper-item current">
+                            <div className={`stepper-item ${currentStep >= 2 ? (currentStep === 2 ? 'current' : 'completed') : ''}`}>
                               <div className="stepper-icon">2</div>
                               <div className="stepper-text">Processing</div>
                             </div>
-                            <div className="stepper-item">
+                            <div className={`stepper-item ${currentStep >= 3 ? (currentStep === 3 ? 'current' : 'completed') : ''}`}>
                               <div className="stepper-icon">3</div>
                               <div className="stepper-text">Shipped</div>
                             </div>
-                            <div className="stepper-item">
+                            <div className={`stepper-item ${currentStep >= 4 ? 'completed current' : ''}`}>
                               <div className="stepper-icon">4</div>
                               <div className="stepper-text">Completed</div>
                             </div>
@@ -238,6 +276,8 @@ export default function PaymentDetail() {
                     <div className="col-lg-8 main-content">
                       {/* Thank you message */}
 
+                      {/* SHIPPED */}
+
                       <div className="thank-you-message">
                         <h1>Thanks for your order!</h1>
                         <p>
@@ -246,6 +286,28 @@ export default function PaymentDetail() {
                           your order progresses.
                         </p>
                       </div>
+
+                      {status[0]?.toLowerCase() === "shipped" && (
+                        <div className="alert alert-success mb-4" role="alert">
+                          <div className="d-flex align-items-center justify-content-between">
+                            <div>
+                              <h5 className="alert-heading mb-2">
+                                <i className="bi bi-check-circle-fill me-2"></i>
+                                your package arrived
+                              </h5>
+                              <p className="mb-0">please check your order.</p>
+                            </div>
+                            <button
+                              onClick={handleComplete}
+                              className="btn btn-success"
+                            >
+                              <i className="bi bi-check-circle me-1"></i>
+                              complete
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
 
                       <div className="details-card">
                         <div className="card-header" data-toggle="collapse">
@@ -394,13 +456,6 @@ export default function PaymentDetail() {
                 </div>
               );
             })}
-
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setProof(e.target.files[0])}
-            />
-            <button onClick={handleSubmit}>Upload Foto</button>
           </div>
         </section>
       </main>
