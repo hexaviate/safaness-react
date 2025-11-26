@@ -395,12 +395,12 @@ export default function PaymentDetail() {
               );
             })}
 
-            <input
+            {/* <input
               type="file"
               accept="image/*"
               onChange={(e) => setProof(e.target.files[0])}
             />
-            <button onClick={handleSubmit}>Upload Foto</button>
+            <button onClick={handleSubmit}>Upload Foto</button> */}
           </div>
         </section>
       </main>

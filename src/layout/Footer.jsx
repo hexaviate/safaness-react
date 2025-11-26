@@ -9,12 +9,11 @@ const Footer = () => {
             <div className="col-lg-4 col-md-6">
               <div className="footer-widget footer-about">
                 <a href="index.html" className="logo">
-                  <span className="sitename">FashionStore</span>
+                  <span className="sitename">Safaness</span>
                 </a>
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Nullam in nibh vehicula, facilisis magna ut, consectetur
-                  lorem. Proin eget tortor risus.
+                  Safaness merupakan sebuah e-commerce yang bertujuan untuk
+                  memasarkan dan juga menjual produk produk yang anda miliki
                 </p>
 
                 <div className="social-links mt-4">
@@ -114,8 +113,11 @@ const Footer = () => {
                   <div className="contact-item">
                     <i className="bi bi-clock"></i>
                     <span>
-                      Monday-Friday: 9am-6pm<br/>Saturday: 10am-4pm<br/>Sunday:
-                      Closed
+                      Monday-Friday: 9am-6pm
+                      <br />
+                      Saturday: 10am-4pm
+                      <br />
+                      Sunday: Closed
                     </span>
                   </div>
                 </div>
