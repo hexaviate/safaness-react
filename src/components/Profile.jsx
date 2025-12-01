@@ -97,29 +97,51 @@ export default function Profile() {
 
   const statusBadge = (status) => {
     switch (status) {
-      case "pending":
+      case "processing":
         return (
-          <div class="order-status in-progress">
-            <span class="status-dot"></span>
+          <div className="order-status in-progress">
+            <span className="status-dot"></span>
             <span>In Progress</span>
           </div>
         );
       case "success":
         return (
-          <div class="order-status delivered">
-            <span class="status-dot"></span>
+          <div className="order-status delivered">
+            <span className="status-dot"></span>
             <span>Delivered</span>
           </div>
         );
       case "failed":
         return (
-          <div class="order-status canceled">
-            <span class="status-dot"></span>
+          <div className="order-status canceled">
+            <span className="status-dot"></span>
             <span>Canceled</span>
+          </div>
+        );
+      case "waiting":
+        return (
+          <div className="order-status waiting">
+            <span className="status-dot"></span>
+            <span>Waiting Payment</span>
+          </div>
+        );
+      case "shipped":
+        return (
+          <div className="order-status shipped">
+            <span className="status-dot"></span>
+            <span>On Delivery</span>
+          </div>
+        );
+      default:
+        return (
+          <div className="order-status unknown">
+            <span className="status-dot"></span>
+            <span>Unknown</span>
           </div>
         );
     }
   };
+
 
   return (
     <>
