@@ -1,4 +1,5 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // import './App.css'
 // import Navbar from './layout/Navbar'
@@ -15,7 +16,6 @@ import ProductFiltered from "./components/ProductFiltered";
 import Register from "./components/auth/Register";
 import PaymentDetail from "./components/PaymentDetail";
 import UploadPayment from "./components/UploadPayment";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import EditAddress from "./components/EditAddress";
 
 function App() {

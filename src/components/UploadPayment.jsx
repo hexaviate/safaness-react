@@ -44,22 +44,22 @@ export default function UploadPayment() {
       .then((response) => {
         const data = response.data.data[0]; // API mengembalikan array, ambil elemen pertama
         setTransactionData(data);
-        
+
         // Set state untuk UI
         setPaymentMethod(data.payment_method);
         setCourier(data.courier_info[0]?.name || "");
-        
+
         // Format data untuk Order Summary
         setCartList(data.transaction_details.map(detail => ({
-            ...detail.product,
-            image: detail.product.image, // Asumsi image ada di dalam product
+          ...detail.product,
+          image: detail.product.image, // Asumsi image ada di dalam product
         })));
 
         setInfoList([{
-            subtotal: data.subtotal,
-            ongkir: data.ongkir,
-            biaya_layanan: data.biaya_layanan,
-            total: data.total,
+          subtotal: data.subtotal,
+          ongkir: data.ongkir,
+          biaya_layanan: data.biaya_layanan,
+          total: data.total,
         }]);
 
       })
@@ -104,12 +104,23 @@ export default function UploadPayment() {
       });
   };
 
+  // const downloadQRCode = () => {
+  //   const link = document.createElement("a");
+  //   link.href = qrCodeUrl;
+  //   link.download = "qris-payment.png";
+  //   link.click();
+  // };
+
   const downloadQRCode = () => {
     const link = document.createElement("a");
-    link.href = qrCodeUrl;
+    link.href = "/images/qris-sample.png"; // path file di public frontend atau public laravel
     link.download = "qris-payment.png";
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
+
+
 
   return (
     <>
@@ -217,12 +228,12 @@ export default function UploadPayment() {
                         )}
 
                         <div className="d-flex justify-content-between mt-4">
-                            <button type="button" className="btn btn-outline-secondary" onClick={() => navigate("/profile")}>
-                                Back to Order History
-                            </button>
-                            <button type="button" className="btn btn-success" onClick={handleSubmitPaymentProof} disabled={!paymentProof}>
-                                Submit Payment Proof
-                            </button>
+                          <button type="button" className="btn btn-outline-secondary" onClick={() => navigate("/profile")}>
+                            Back to Order History
+                          </button>
+                          <button type="button" className="btn btn-success" onClick={handleSubmitPaymentProof} disabled={!paymentProof}>
+                            Submit Payment Proof
+                          </button>
                         </div>
                       </>
                     ) : (

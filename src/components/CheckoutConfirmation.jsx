@@ -158,12 +158,21 @@ export default function CheckoutConfirmation() {
       });
   };
 
+  // const downloadQRCode = () => {
+  //   const link = document.createElement("a");
+  //   link.href = qrCodeUrl;
+  //   link.download = "qris-payment.png";
+  //   link.click();
+  // };
   const downloadQRCode = () => {
     const link = document.createElement("a");
-    link.href = qrCodeUrl;
+    link.href = "/images/qris-sample.png"; // path file di public frontend atau public laravel
     link.download = "qris-payment.png";
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
+
 
   return (
     <>

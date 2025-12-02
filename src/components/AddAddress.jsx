@@ -154,7 +154,7 @@ export default function AddAddress() {
                   <form class="php-email-form" onSubmit={handleSubmit}>
                     <div class="row">
                       <div class="col-md-12 mb-3">
-                        <label for="address_name" class="form-label">
+                        <label for="adress_name" class="form-label">
                           Address Name <span class="text-danger">*</span>
                         </label>
                         <input
@@ -162,7 +162,7 @@ export default function AddAddress() {
                           class="form-control"
                           id="adress_name"
                           name="adress_name"
-                          value={formData.address_name}
+                          value={formData.adress_name}
                           onChange={handleChange}
                           placeholder="e.g. Home, Office, etc."
                           required
@@ -171,7 +171,7 @@ export default function AddAddress() {
                     </div>
                     <div class="row">
                       <div class="col-md-12 mb-3">
-                        <label for="address" class="form-label">
+                        <label for="adress" class="form-label">
                           Full Address <span class="text-danger">*</span>
                         </label>
                         <textarea
@@ -179,7 +179,7 @@ export default function AddAddress() {
                           id="adress"
                           name="adress"
                           rows="4"
-                          value={formData.address}
+                          value={formData.adress}
                           onChange={handleChange}
                           placeholder="Enter your complete address"
                           required

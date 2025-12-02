@@ -14,35 +14,50 @@
 --------------------------------------------------------------*/
 /* Fonts */
 :root {
-  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Quicksand",  sans-serif;
-  --nav-font: "Ubuntu",  sans-serif;
+  --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Quicksand", sans-serif;
+  --nav-font: "Ubuntu", sans-serif;
 }
 
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
 :root {
   /* Warna Utama & Brand */
-  --primary-color: #78c03b; /* green fresh - warna utama brand */
-  --accent-color: #78c03b; /* green fresh - warna utama */
-  --accent-promo: #c03b78; /* magenta/pink vibrant - untuk promo, banner, tombol penting */
-  --accent-light: #ff75b0; /* pink light untuk variasi accent */
-  
+  --primary-color: #78c03b;
+  /* green fresh - warna utama brand */
+  --accent-color: #78c03b;
+  /* green fresh - warna utama */
+  --accent-promo: #c03b78;
+  /* magenta/pink vibrant - untuk promo, banner, tombol penting */
+  --accent-light: #ff75b0;
+  /* pink light untuk variasi accent */
+
   /* Warna Hijau Pendamping */
-  --secondary-green: #5ea62e; /* green deep */
-  --highlight-green: #98d86a; /* green soft / highlight */
-  --pastel-green: #d2e8c4; /* hijau pastel natural */
-  --earthy-green: #4f6f34; /* hijau daun tua earthy */
-  
+  --secondary-green: #5ea62e;
+  /* green deep */
+  --highlight-green: #98d86a;
+  /* green soft / highlight */
+  --pastel-green: #d2e8c4;
+  /* hijau pastel natural */
+  --earthy-green: #4f6f34;
+  /* hijau daun tua earthy */
+
   /* Warna Dasar & Netral */
-  --background-color: #f7f7f7; /* putih soft, cocok buat background */
-  --surface-color: #ffffff; /* putih bersih */
-  --default-color: #2f2f2f; /* hitam lembut buat teks biar readable */
-  --heading-color: #2f2f2f; /* hitam lembut untuk heading */
-  --contrast-color: #ffffff; /* putih bersih */
-  --light-gray: #e5e5e5; /* abu muda untuk border & card */
-  
+  --background-color: #f7f7f7;
+  /* putih soft, cocok buat background */
+  --surface-color: #ffffff;
+  /* putih bersih */
+  --default-color: #2f2f2f;
+  /* hitam lembut buat teks biar readable */
+  --heading-color: #2f2f2f;
+  /* hitam lembut untuk heading */
+  --contrast-color: #ffffff;
+  /* putih bersih */
+  --light-gray: #e5e5e5;
+  /* abu muda untuk border & card */
+
   /* Warna Natural Pendukung */
-  --beige: #bfa98a; /* coklat beige lembut (buat tone natural) */
+  --beige: #bfa98a;
+  /* coklat beige lembut (buat tone natural) */
 }
 
 /* Perbarui warna navigasi */
@@ -6504,6 +6519,35 @@ section,
 .order-confirmation .sidebar .price-summary h5 {
   font-size: 1.1rem;
   margin-bottom: 1rem;
+}
+
+.spinner-green {
+  color: #16c172 !important;
+  /* warna hijau custom */
+}
+
+.spinner-border {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: -0.125em;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* kalau mau size kecil */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
 }
 
 .order-confirmation .sidebar .price-summary .summary-list {
